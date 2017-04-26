@@ -47,6 +47,9 @@
 
 !include Silicon/Marvell/Armada7k8k/Armada7k8k.dsc.inc
 
+[LibraryClasses.common]
+  NonDiscoverableInitLib|Platform/Marvell/Armada70x0Db/NonDiscoverableInitLib/NonDiscoverableInitLib.inf
+
 ################################################################################
 #
 # Pcd Section - list of all EDK II PCD Entries defined by this Platform
