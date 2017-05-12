@@ -223,7 +223,7 @@ fsw_status_t fsw_block_get(struct VOLSTRUCTNAME *vol, fsw_u64 phys_bno, fsw_u32 
             break;
     }
     if (i >= vol->bcache_size) {
-        for (discard_level = 0; discard_level <= MAX_CACHE_LEVEL; discard_level++) {
+        for (discard_level = 0; discard_level <= cache_level; discard_level++) {
             for (i = 0; i < vol->bcache_size; i++) {
                 if (vol->bcache[i].refcount == 0 && vol->bcache[i].cache_level <= discard_level)
                     break;
