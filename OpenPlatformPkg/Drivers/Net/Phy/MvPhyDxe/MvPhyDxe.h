@@ -82,7 +82,6 @@ typedef
 EFI_STATUS
 (*MV_PHY_DEVICE_INIT) (
     IN CONST MARVELL_PHY_PROTOCOL *Snp,
-    IN UINT32 PhyAddr,
     IN OUT PHY_DEVICE *PhyDev
     );
 
@@ -95,7 +94,6 @@ STATIC
 EFI_STATUS
 MvPhyInit1512 (
     IN CONST MARVELL_PHY_PROTOCOL *Snp,
-    IN UINT32 PhyAddr,
     IN OUT PHY_DEVICE *PhyDev
     );
 
