@@ -34,6 +34,9 @@ ArmadaPlatInitBoardSelect (
   case MVBOARD_ID_ARMADA7040_DB:
     DEBUG ((DEBUG_ERROR, "\nArmada 7040 DB Platform Init\n\n"));
     return EFI_SUCCESS;
+  case MVBOARD_ID_ARMADA8040_DB:
+    DEBUG ((DEBUG_ERROR, "\nArmada 8040 DB Platform Init\n\n"));
+    return EFI_SUCCESS;
   case MVBOARD_ID_ARMADA8040_MCBIN:
     DEBUG ((DEBUG_ERROR, "\nArmada 8040 MachiatoBin Platform Init\n\n"));
     return EFI_SUCCESS;
