@@ -41,5 +41,8 @@
 [Protocols]
   gMarvellPlatformInitCompleteProtocolGuid    ## PRODUCES
 
+[Pcd]
+  gMarvellTokenSpaceGuid.PcdBoardId
+
 [Depex]
   TRUE
