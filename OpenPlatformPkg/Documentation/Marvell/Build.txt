@@ -34,6 +34,7 @@ Build procedure
 
 			# sudo apt-get install build-essential uuid-dev
 			# sudo apt-get install lib32stdc++6 lib32z1
+			# sudo apt-get install acpica-tools
 
 	2.2 Set up EDK2 environment
 
