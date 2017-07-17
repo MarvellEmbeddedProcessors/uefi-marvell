@@ -114,16 +114,16 @@ StartLinux (
     LinuxImageSize -= 64;
   }
 
-  //
-  // Switch off interrupts, caches, mmu, etc
-  //
-  PreparePlatformHardware ();
-
   // Register and print out performance information
   PERF_END (NULL, "BDS", NULL, 0);
   if (PerformanceMeasurementEnabled ()) {
     PrintPerformance ();
   }
+
+  //
+  // Switch off interrupts, caches, mmu, etc
+  //
+  PreparePlatformHardware ();
 
   //
   // Start the Linux Kernel
