@@ -14,6 +14,7 @@
 
 #include <Library/ArmLib.h>
 #include <Library/ArmGicLib.h>
+#include <Library/CacheMaintenanceLib.h>
 #include <Library/IoLib.h>
 #include <Library/PcdLib.h>
 
@@ -119,6 +120,8 @@ StartLinux (
   if (PerformanceMeasurementEnabled ()) {
     PrintPerformance ();
   }
+
+  WriteBackInvalidateDataCacheRange ((VOID *) (UINTN) LinuxImage, LinuxImageSize);
 
   //
   // Switch off interrupts, caches, mmu, etc

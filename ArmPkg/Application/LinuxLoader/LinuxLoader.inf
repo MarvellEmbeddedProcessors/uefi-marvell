@@ -54,6 +54,7 @@
 [LibraryClasses]
   ArmLib
   BdsLib
+  CacheMaintenanceLib
   DebugLib
   DxeServicesTableLib
   FdtLib
