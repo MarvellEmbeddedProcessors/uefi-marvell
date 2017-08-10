@@ -262,9 +262,8 @@ PrepareFdt (
       GetSystemMemoryResources (&ResourceList);
       Resource = (SYSTEM_MEMORY_RESOURCE*)ResourceList.ForwardLink;
 
-      Region.Base = cpu_to_fdtn ((UINTN)Resource->PhysicalStart);
-      Region.Size = cpu_to_fdtn ((UINTN)Resource->ResourceLength);
-
+      Region.Base = cpu_to_fdtn (FixedPcdGet64 (PcdSystemMemoryBase));
+      Region.Size = cpu_to_fdtn (FixedPcdGet64 (PcdSystemMemorySize));
       err = fdt_setprop (fdt, node, "reg", &Region, sizeof (Region));
       if (err) {
         DEBUG ((EFI_D_ERROR, "Fail to set new 'memory region' (err:%d)\n", err));

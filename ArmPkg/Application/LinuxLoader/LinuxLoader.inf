@@ -82,6 +82,8 @@
   gArmTokenSpaceGuid.PcdArmLinuxFdtMaxOffset
   gArmTokenSpaceGuid.PcdArmLinuxFdtAlignment
   gArmTokenSpaceGuid.PcdArmLinuxKernelMaxOffset
+  gArmTokenSpaceGuid.PcdSystemMemoryBase
+  gArmTokenSpaceGuid.PcdSystemMemorySize
 
 [FixedPcd.ARM]
   gArmTokenSpaceGuid.PcdArmLinuxAtagMaxOffset
