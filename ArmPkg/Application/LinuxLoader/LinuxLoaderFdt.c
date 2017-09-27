@@ -15,6 +15,7 @@
 #include <PiDxe.h>
 #include <Library/ArmLib.h>
 #include <Library/HobLib.h>
+#include <Library/IoLib.h>
 
 #include <Guid/ArmMpCoreInfo.h>
 
@@ -154,8 +155,6 @@ PrepareFdt (
   FDT_REGION            Region;
   UINTN                 Index;
   CHAR8                 Name[10];
-  LIST_ENTRY            ResourceList;
-  SYSTEM_MEMORY_RESOURCE  *Resource;
   ARM_PROCESSOR_TABLE   *ArmProcessorTable;
   ARM_CORE_INFO         *ArmCoreInfoTable;
   UINT32                MpId;
@@ -172,6 +171,7 @@ PrepareFdt (
   UINTN                 OriginalFdtSize;
   BOOLEAN               CpusNodeExist;
   UINTN                 CoreMpId;
+  EFI_PEI_HOB_POINTERS  Hob;
 
   NewFdtBlobAllocation = 0;
 
@@ -259,14 +259,27 @@ PrepareFdt (
       fdt_setprop_string (fdt, node, "name", "memory");
       fdt_setprop_string (fdt, node, "device_type", "memory");
 
-      GetSystemMemoryResources (&ResourceList);
-      Resource = (SYSTEM_MEMORY_RESOURCE*)ResourceList.ForwardLink;
+      Hob.Raw = GetFirstHob (EFI_HOB_TYPE_RESOURCE_DESCRIPTOR);
+      ASSERT (Hob.Raw != NULL);
 
-      Region.Base = cpu_to_fdtn (FixedPcdGet64 (PcdSystemMemoryBase));
-      Region.Size = cpu_to_fdtn (FixedPcdGet64 (PcdSystemMemorySize));
-      err = fdt_setprop (fdt, node, "reg", &Region, sizeof (Region));
-      if (err) {
-        DEBUG ((EFI_D_ERROR, "Fail to set new 'memory region' (err:%d)\n", err));
+      while ((Hob.Raw != NULL) && (!END_OF_HOB_LIST (Hob))) {
+        if (Hob.ResourceDescriptor->ResourceType == EFI_RESOURCE_SYSTEM_MEMORY) {
+
+          Region.Base = cpu_to_fdtn (Hob.ResourceDescriptor->PhysicalStart);
+          Region.Size = cpu_to_fdtn (Hob.ResourceDescriptor->ResourceLength);
+          DEBUG ((DEBUG_INFO,
+            "Add Memory Region [0x%llx, 0x%llx]\n",
+            Hob.ResourceDescriptor->PhysicalStart,
+            Hob.ResourceDescriptor->ResourceLength));
+
+          err = fdt_appendprop (fdt, node, "reg", &Region, sizeof (Region));
+          if (EFI_ERROR(Status)) {
+            DEBUG ((DEBUG_ERROR, "Fail to set new 'memory region' (err:%d)\n", err));
+          }
+        }
+
+        Hob.Raw = GET_NEXT_HOB (Hob);
+        Hob.Raw = GetNextHob (EFI_HOB_TYPE_RESOURCE_DESCRIPTOR, Hob.Raw);
       }
     }
   }
@@ -296,7 +309,7 @@ PrepareFdt (
     MemoryMapPtr = MemoryMap;
     for (Index = 0; Index < (MemoryMapSize / DescriptorSize); Index++) {
       if (IsLinuxReservedRegion ((EFI_MEMORY_TYPE)MemoryMapPtr->Type)) {
-        DEBUG ((DEBUG_VERBOSE, "Reserved region of type %d [0x%lX, 0x%lX]\n",
+        DEBUG ((DEBUG_ERROR, "Reserved region of type %d [0x%lX, 0x%lX]\n",
             MemoryMapPtr->Type,
             (UINTN)MemoryMapPtr->PhysicalStart,
             (UINTN)(MemoryMapPtr->PhysicalStart + MemoryMapPtr->NumberOfPages * EFI_PAGE_SIZE)));
