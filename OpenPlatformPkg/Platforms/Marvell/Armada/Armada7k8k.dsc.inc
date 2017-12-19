@@ -287,7 +287,6 @@
   # ARM SBSA Watchdog
   gArmTokenSpaceGuid.PcdGenericWatchdogControlBase|0xF0610000
   gArmTokenSpaceGuid.PcdGenericWatchdogRefreshBase|0xF0600000
-  gArmTokenSpaceGuid.PcdGenericWatchdogEl2IntrNum|34
 
   # Serial
   gEfiMdeModulePkgTokenSpaceGuid.PcdSerialUseMmio|TRUE
