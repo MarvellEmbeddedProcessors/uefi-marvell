@@ -385,6 +385,7 @@
   ArmPkg/Drivers/GenericWatchdogDxe/GenericWatchdogDxe.inf
 
   # Platform Initialization
+  Silicon/Marvell/Drivers/BoardDesc/MvBoardDescDxe.inf
   Silicon/Marvell/Armada7k8k/Drivers/PlatInitDxe/PlatInitDxe.inf
 
   # Platform drivers
