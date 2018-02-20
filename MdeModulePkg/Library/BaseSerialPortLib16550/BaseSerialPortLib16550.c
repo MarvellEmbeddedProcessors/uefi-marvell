@@ -21,6 +21,7 @@
 #include <Library/PciLib.h>
 #include <Library/PlatformHookLib.h>
 #include <Library/BaseLib.h>
+#include <Library/TimerLib.h>
 
 //
 // PCI Defintions.
@@ -952,6 +953,7 @@ SerialPortSetAttributes (
   UINT8     LcrData;
   UINT8     LcrParity;
   UINT8     LcrStop;
+  UINT32    MaxPollCount;
 
   SerialRegisterBase = GetSerialRegisterBase ();
   if (SerialRegisterBase ==0) {
@@ -1077,8 +1079,19 @@ SerialPortSetAttributes (
 
   //
   // Configure baud rate
+  // Make sure the serial port is in a correct state before changing the baud rate
   //
-  SerialPortWriteRegister (SerialRegisterBase, R_UART_LCR, B_UART_LCR_DLAB);
+  MaxPollCount = 0;
+  while ((SerialPortReadRegister (SerialRegisterBase, R_UART_LSR) &
+         (B_UART_LSR_TEMT | B_UART_LSR_TXRDY)) !=
+         (B_UART_LSR_TEMT | B_UART_LSR_TXRDY)) {
+    if (MaxPollCount++ > 100) {
+      return RETURN_DEVICE_ERROR;
+    }
+    MicroSecondDelay (10);
+  }
+  SerialPortWriteRegister (SerialRegisterBase, R_UART_LCR,
+    (UINT8)(SerialPortReadRegister (SerialRegisterBase, R_UART_LCR) | B_UART_LCR_DLAB));
   SerialPortWriteRegister (SerialRegisterBase, R_UART_BAUD_HIGH, (UINT8) (Divisor >> 8));
   SerialPortWriteRegister (SerialRegisterBase, R_UART_BAUD_LOW, (UINT8) (Divisor & 0xff));
 
