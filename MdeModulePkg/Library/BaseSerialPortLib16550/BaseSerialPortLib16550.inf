@@ -30,6 +30,7 @@
   IoLib
   PlatformHookLib
   PciLib
+  TimerLib
 
 [Sources]
   BaseSerialPortLib16550.c
