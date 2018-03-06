@@ -32,6 +32,7 @@
 [LibraryClasses]
   ComPhyLib
   DebugLib
+  IoLib
   MppLib
   PcdLib
   TimerLib
