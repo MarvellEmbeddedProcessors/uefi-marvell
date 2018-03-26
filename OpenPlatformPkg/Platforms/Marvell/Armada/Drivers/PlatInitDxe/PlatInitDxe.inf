@@ -39,6 +39,7 @@
 
 [Protocols]
   gMarvellPlatformInitCompleteProtocolGuid    ## PRODUCES
+  gMarvellBoardDescProtocolGuid  ## CONSUMES
 
 [Pcd]
   gMarvellTokenSpaceGuid.PcdBoardId
