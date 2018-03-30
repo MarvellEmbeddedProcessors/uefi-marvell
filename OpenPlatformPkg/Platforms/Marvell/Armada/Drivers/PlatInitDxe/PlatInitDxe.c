@@ -39,6 +39,9 @@ ArmadaPlatInitBoardSelect (
   case MVBOARD_ID_ARMADA8040_MCBIN:
     DEBUG ((DEBUG_ERROR, "\nArmada 8040 MachiatoBin Platform Init\n\n"));
     return EFI_SUCCESS;
+  case MVBOARD_ID_ARMADA8082_DB:
+    DEBUG ((DEBUG_ERROR, "\nArmada 8082 DB Platform Init\n\n"));
+    return EFI_SUCCESS;
   default:
     DEBUG ((DEBUG_ERROR, "\nInvalid Board Id 0x%x\n", BoardId));
     return EFI_INVALID_PARAMETER;
