@@ -100,6 +100,16 @@ ArmadaSoCDescCpBaseGet (
   return MV_SOC_CP_BASE (CpIndex);
 }
 
+EFI_STATUS
+EFIAPI
+ArmadaSoCDescFuseGet (
+  IN OUT MV_SOC_FUSE_DESC  **FuseDesc,
+  IN OUT UINTN              *DescCount
+  )
+{
+  return EFI_UNSUPPORTED;
+}
+
 //
 // Platform description of GPIO
 //

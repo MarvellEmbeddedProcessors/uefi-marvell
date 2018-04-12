@@ -50,6 +50,29 @@ ArmadaSoCDescCpBaseGet (
   );
 
 //
+// Fuse devices SoC description
+//
+typedef struct {
+  UINT8 BankId;
+  UINT8 BankType;
+  UINT8 BankOPMode;
+  UINTN BankRegBase;
+  UINTN OTPMemBase;
+  UINTN RowCount;
+  UINTN RowLength;
+  UINTN RowStep;
+  CHAR16  BankName[10];
+  UINT8 PriBitOffset;
+} MV_SOC_FUSE_DESC;
+
+EFI_STATUS
+EFIAPI
+ArmadaSoCDescFuseGet (
+  IN OUT MV_SOC_FUSE_DESC  **FuseDesc,
+  IN OUT UINTN              *DescCount
+  );
+
+//
 // GPIO devices description template definition
 //
 #define MVHW_MAX_GPIO_DEVS       20

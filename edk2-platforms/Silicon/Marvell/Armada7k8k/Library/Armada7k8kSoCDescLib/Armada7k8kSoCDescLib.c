@@ -101,6 +101,103 @@ ArmadaSoCDescCpBaseGet (
 }
 
 //
+// Platform description of Fuse controllers
+//
+#define MV_AP_FUSE_COUNT                3
+#define MV_AP_FUSE_CTRL_BASE            (MV_SOC_AP_BASE + 0x6F8008)
+#define MV_AP_FUSE_HD_MEN_BASE          (MV_SOC_AP_BASE + 0x6F9000)
+#define MV_AP_FUSE_LD_MEN_BASE          (MV_SOC_AP_BASE + 0x6F8F00)
+#define MV_CP_FUSE_CTRL_BASE(Cp)        (MV_SOC_CP_BASE(Cp) + 0x400008)
+#define MV_CP_FUSE_LD_MEN_BASE(Cp)      (MV_SOC_CP_BASE(Cp) + 0x400F00)
+
+#define MV_FUSE_COUNT_PER_CP            2
+#define MV_FUSE_LD_ROW_LEN              256
+#define MV_FUSE_LD_ROW_CNT              1
+#define MV_FUSE_HD_ROW_LEN              65
+#define MV_FUSE_HD_ROW_CNT              64
+
+STATIC CONST CHAR16 *Cp0BankNameArray[] = {
+L"CP0-LD0",
+L"CP0-LD1"
+};
+
+STATIC CONST CHAR16 *Cp1BankNameArray[] = {
+L"CP1-LD0",
+L"CP1-LD1"
+};
+
+
+typedef enum {
+  HighDensity = 0,
+  LowDensity = 1
+} FuseBankType;
+
+typedef enum {
+  BankRW = 0,
+  BankRO = 1,
+  BankWO = 2
+} FuseBankOPMode;
+
+STATIC MV_SOC_FUSE_DESC MvApFuseDesc[MV_AP_FUSE_COUNT] = {
+  { 0, HighDensity, BankRW, MV_AP_FUSE_CTRL_BASE, MV_AP_FUSE_HD_MEN_BASE,
+    MV_FUSE_HD_ROW_CNT, MV_FUSE_HD_ROW_LEN, 16, L"AP0-HD0", 0 },
+  { 1, LowDensity, BankRO, MV_AP_FUSE_CTRL_BASE, MV_AP_FUSE_LD_MEN_BASE,
+    MV_FUSE_LD_ROW_CNT, MV_FUSE_LD_ROW_LEN, 0, L"AP0-LD0", 0 },
+  { 2, LowDensity, BankRW, MV_AP_FUSE_CTRL_BASE, MV_AP_FUSE_LD_MEN_BASE,
+    MV_FUSE_LD_ROW_CNT, MV_FUSE_LD_ROW_LEN, 0, L"AP0-LD1", 0 }
+};
+
+EFI_STATUS
+EFIAPI
+ArmadaSoCDescFuseGet (
+  IN OUT MV_SOC_FUSE_DESC  **FuseDesc,
+  IN OUT UINTN              *DescCount
+  )
+{
+  MV_SOC_FUSE_DESC *Desc;
+  UINTN CpCount = FixedPcdGet8 (PcdMaxCpCount);
+  UINTN CpIndex, FuseIndex = 0, LdIndex = 0;
+
+  Desc = AllocateZeroPool ((CpCount * MV_FUSE_COUNT_PER_CP + MV_AP_FUSE_COUNT) *
+                           sizeof (MV_SOC_FUSE_DESC));
+  if (Desc == NULL) {
+    DEBUG ((DEBUG_ERROR, "%a: Cannot allocate memory\n", __FUNCTION__));
+    return EFI_OUT_OF_RESOURCES;
+  }
+
+  /* AP Fuse Description */
+  CopyMem (Desc, MvApFuseDesc, MV_AP_FUSE_COUNT * sizeof (MV_SOC_FUSE_DESC));
+
+  /* CP Fuse Description */
+  FuseIndex = MV_AP_FUSE_COUNT;
+  for (CpIndex = 0; CpIndex < CpCount; CpIndex++) {
+    for (LdIndex = 0; LdIndex < MV_FUSE_COUNT_PER_CP; LdIndex++, FuseIndex++) {
+      Desc[FuseIndex].BankId        = FuseIndex;
+      Desc[FuseIndex].BankType      = LowDensity;
+      if (LdIndex == 0) {
+        Desc[FuseIndex].BankOPMode  = BankRO;
+      } else {
+        Desc[FuseIndex].BankOPMode  = BankRW;
+      }
+      Desc[FuseIndex].BankRegBase   = MV_CP_FUSE_CTRL_BASE (CpIndex);
+      Desc[FuseIndex].OTPMemBase    = MV_CP_FUSE_LD_MEN_BASE (CpIndex);
+      Desc[FuseIndex].RowCount      = MV_FUSE_LD_ROW_CNT;
+      Desc[FuseIndex].RowLength     = MV_FUSE_LD_ROW_LEN;
+      if (CpIndex == 0) {
+        CopyMem (Desc[FuseIndex].BankName, Cp0BankNameArray[LdIndex], 16);
+      } else if (CpIndex == 1) {
+        CopyMem (Desc[FuseIndex].BankName, Cp1BankNameArray[LdIndex], 16);
+      }
+    }
+  }
+
+  *FuseDesc = Desc;
+  *DescCount = FuseIndex;
+
+  return EFI_SUCCESS;
+}
+
+//
 // Platform description of GPIO
 //
 #define MVHW_AP_GPIO0_BASE             0xF06F5040
