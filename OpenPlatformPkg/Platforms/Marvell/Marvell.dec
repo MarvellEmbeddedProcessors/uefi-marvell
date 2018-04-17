@@ -67,6 +67,7 @@
 
 [LibraryClasses]
   ArmadaSoCFuseLib|Include/Library/ArmadaSoCFuseLib.h
+  MvFuseLib|Include/Library/MvFuseLib.h
   PciEmulationInitLib|Include/Library/PciEmulationInitLib.h
 
 [PcdsFixedAtBuild.common]
@@ -184,6 +185,7 @@
 
 #Fuse
   gMarvellTokenSpaceGuid.PcdFuseDryRunEnabled|{ 0x0 }|VOID*|0x3000055
+  gMarvellTokenSpaceGuid.PcdFuseDevCount|0|UINT32|0x3000060
 
 #PHY
   gMarvellTokenSpaceGuid.PcdPhy2MdioController|{ 0x0 }|VOID*|0x3000027
