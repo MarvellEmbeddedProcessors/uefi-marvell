@@ -37,6 +37,7 @@
   ArmadaSoCFuseLib|Silicon/Marvell/Armada7k8k/Library/Armada7k8kFuseLib/Armada7k8kFuseLib.inf
   ArmPlatformLib|Silicon/Marvell/Armada7k8k/Library/Armada7k8kLib/Armada7k8kLib.inf
   ComPhyLib|Silicon/Marvell/Library/ComPhyLib/ComPhyLib.inf
+  FuseLib|Silicon/Marvell/Library/FuseLib/FuseLib.inf
   MppLib|Silicon/Marvell/Library/MppLib/MppLib.inf
   NorFlashInfoLib|EmbeddedPkg/Library/NorFlashInfoLib/NorFlashInfoLib.inf
   SampleAtResetLib|Silicon/Marvell/Armada7k8k/Library/Armada7k8kSampleAtResetLib/Armada7k8kSampleAtResetLib.inf
