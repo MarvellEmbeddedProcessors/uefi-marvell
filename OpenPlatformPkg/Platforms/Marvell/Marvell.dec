@@ -66,6 +66,7 @@
   gMarvellPlatformInitCompleteProtocolGuid = { 0x465b8cf7, 0x016f, 0x4ba6, { 0xbe, 0x6b, 0x28, 0x0e, 0x3a, 0x7d, 0x38, 0x6f } }
 
 [LibraryClasses]
+  ArmadaSoCFuseLib|Include/Library/ArmadaSoCFuseLib.h
   PciEmulationInitLib|Include/Library/PciEmulationInitLib.h
 
 [PcdsFixedAtBuild.common]
@@ -180,6 +181,9 @@
 #MDIO
   gMarvellTokenSpaceGuid.PcdMdioControllers|{ 0x0 }|VOID*|0x3000043
   gMarvellTokenSpaceGuid.PcdMdioReadCounterEnable|{ 0x0 }|VOID*|0x3000054
+
+#Fuse
+  gMarvellTokenSpaceGuid.PcdFuseDryRunEnabled|{ 0x0 }|VOID*|0x3000055
 
 #PHY
   gMarvellTokenSpaceGuid.PcdPhy2MdioController|{ 0x0 }|VOID*|0x3000027
