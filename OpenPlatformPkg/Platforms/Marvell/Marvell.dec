@@ -68,6 +68,7 @@
 [LibraryClasses]
   ArmadaBoardDescLib|Include/Library/ArmadaBoardDescLib.h
   ArmadaSoCDescLib|Include/Library/ArmadaSoCDescLib.h
+  ArmadaSoCFuseLib|Include/Library/ArmadaSoCFuseLib.h
   MvSARLib|Include/Library/MvSARLib.h
   PciEmulationInitLib|Include/Library/PciEmulationInitLib.h
 
@@ -181,6 +182,9 @@
 #MDIO
   gMarvellTokenSpaceGuid.PcdMdioControllers|{ 0x0 }|VOID*|0x3000043
   gMarvellTokenSpaceGuid.PcdMdioReadCounterEnable|{ 0x0 }|VOID*|0x3000054
+
+#Fuse
+  gMarvellTokenSpaceGuid.PcdFuseDryRunEnabled|{ 0x0 }|VOID*|0x3000055
 
 #PHY
   gMarvellTokenSpaceGuid.PcdPhy2MdioController|{ 0x0 }|VOID*|0x3000027
