@@ -34,6 +34,7 @@
 [LibraryClasses.common]
   ArmadaIcuLib|Silicon/Marvell/Library/IcuLib/IcuLib.inf
   ArmadaSoCDescLib|Silicon/Marvell/Armada7k8k/Library/Armada7k8kSoCDescLib/Armada7k8kSoCDescLib.inf
+  ArmadaSoCFuseLib|Silicon/Marvell/Armada7k8k/Library/Armada7k8kFuseLib/Armada7k8kFuseLib.inf
   ArmPlatformLib|Silicon/Marvell/Armada7k8k/Library/Armada7k8kLib/Armada7k8kLib.inf
   ComPhyLib|Silicon/Marvell/Library/ComPhyLib/ComPhyLib.inf
   MppLib|Silicon/Marvell/Library/MppLib/MppLib.inf
