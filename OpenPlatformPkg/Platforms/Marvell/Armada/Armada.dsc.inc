@@ -34,6 +34,7 @@
   ArmadaSoCFuseLib|OpenPlatformPkg/Platforms/Marvell/Armada/Library/Armada7k8kFuseLib/Armada7k8kFuseLib.inf
   ComPhyLib|OpenPlatformPkg/Platforms/Marvell/Library/ComPhyLib/ComPhyLib.inf
   MppLib|OpenPlatformPkg/Platforms/Marvell/Library/MppLib/MppLib.inf
+  MvFuseLib|OpenPlatformPkg/Platforms/Marvell/Armada/Library/ArmadaFuseLib/ArmadaFuseLib.inf
   NorFlashInfoLib|EmbeddedPkg/Library/NorFlashInfoLib/NorFlashInfoLib.inf
   PciEmulationInitLib|OpenPlatformPkg/Platforms/Marvell/Armada/Library/Armada70x0PciEmuInitLib/Armada70x0PciEmuInitLib.inf
   UtmiPhyLib|OpenPlatformPkg/Platforms/Marvell/Library/UtmiPhyLib/UtmiPhyLib.inf

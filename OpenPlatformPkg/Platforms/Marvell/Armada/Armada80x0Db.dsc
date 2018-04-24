@@ -148,6 +148,7 @@
   gMarvellTokenSpaceGuid.PcdMdioControllers|{ 0x1, 0x1 }
 
   #Fuse
+  gMarvellTokenSpaceGuid.PcdFuseDevCount|7
   gMarvellTokenSpaceGuid.PcdFuseDryRunEnabled|{ 0x0 }
 
   #PHY
