@@ -33,6 +33,7 @@
 #
 [LibraryClasses.common]
   ArmadaSoCDescLib|OpenPlatformPkg/Platforms/Marvell/Armada/Library/Armada7k8kSoCDescLib/Armada7k8kSoCDescLib.inf
+  ArmadaSoCFuseLib|OpenPlatformPkg/Platforms/Marvell/Armada/Library/Armada7k8kFuseLib/Armada7k8kFuseLib.inf
   ArmPlatformLib|OpenPlatformPkg/Platforms/Marvell/Armada/Library/Armada70x0Lib/Armada70x0Lib.inf
   ComPhyLib|OpenPlatformPkg/Platforms/Marvell/Library/ComPhyLib/ComPhyLib.inf
   MppLib|OpenPlatformPkg/Platforms/Marvell/Library/MppLib/MppLib.inf

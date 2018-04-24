@@ -59,6 +59,9 @@
   #BoardId: Armada-8040-db
   gMarvellTokenSpaceGuid.PcdBoardId|0x1
 
+  #Fuse
+  gMarvellTokenSpaceGuid.PcdFuseDryRunEnabled|{ 0x0 }
+
   #Timer
   gEmbeddedTokenSpaceGuid.PcdTimerPeriod|10000
 
