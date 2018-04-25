@@ -43,8 +43,23 @@
   DebugLib|MdePkg/Library/BaseDebugLibSerialPort/BaseDebugLibSerialPort.inf
   DebugPrintErrorLevelLib|MdePkg/Library/BaseDebugPrintErrorLevelLib/BaseDebugPrintErrorLevelLib.inf
 
+!if $(CAPSULE_ENABLE)
+  OpensslLib|CryptoPkg/Library/OpensslLib/OpensslLib.inf
+  IntrinsicLib|CryptoPkg/Library/IntrinsicLib/IntrinsicLib.inf
+  BaseCryptLib|CryptoPkg/Library/BaseCryptLib/BaseCryptLib.inf
+  CapsuleLib|MdeModulePkg/Library/DxeCapsuleLibFmp/DxeCapsuleLib.inf
+  EdkiiSystemCapsuleLib|SignedCapsulePkg/Library/EdkiiSystemCapsuleLib/EdkiiSystemCapsuleLib.inf
+  FmpAuthenticationLib|SecurityPkg/Library/FmpAuthenticationLibPkcs7/FmpAuthenticationLibPkcs7.inf
+  IniParsingLib|SignedCapsulePkg/Library/IniParsingLib/IniParsingLib.inf
+  PlatformFlashAccessLib|Silicon/Marvell/Armada7k8k/Feature/Capsule/PlatformFlashAccessLib/PlatformFlashAccessLib.inf
+!endif
+
 # Basic utility libraries
   BaseLib|MdePkg/Library/BaseLib/BaseLib.inf
+!if $(CAPSULE_ENABLE)
+  BmpSupportLib|MdeModulePkg/Library/BaseBmpSupportLib/BaseBmpSupportLib.inf
+  SafeIntLib|MdePkg/Library/BaseSafeIntLib/BaseSafeIntLib.inf
+!endif
   SynchronizationLib|MdePkg/Library/BaseSynchronizationLib/BaseSynchronizationLib.inf
   PerformanceLib|MdePkg/Library/BasePerformanceLibNull/BasePerformanceLibNull.inf
   PrintLib|MdePkg/Library/BasePrintLib/BasePrintLib.inf
@@ -203,7 +218,11 @@
 [LibraryClasses.common.DXE_RUNTIME_DRIVER]
   HobLib|MdePkg/Library/DxeHobLib/DxeHobLib.inf
   MemoryAllocationLib|MdePkg/Library/UefiMemoryAllocationLib/UefiMemoryAllocationLib.inf
+!if $(CAPSULE_ENABLE)
+  CapsuleLib|MdeModulePkg/Library/DxeCapsuleLibFmp/DxeRuntimeCapsuleLib.inf
+!else
   CapsuleLib|MdeModulePkg/Library/DxeCapsuleLibNull/DxeCapsuleLibNull.inf
+!endif
 !if $(TARGET) != RELEASE
   DebugLib|MdePkg/Library/DxeRuntimeDebugLibSerialPort/DxeRuntimeDebugLibSerialPort.inf
 !endif
@@ -392,6 +411,13 @@
   # SoC Configuration Space
   gMarvellTokenSpaceGuid.PcdConfigSpaceBaseAddress|0xE0000000
 
+!if $(CAPSULE_ENABLE)
+[PcdsDynamicExDefault.common.DEFAULT]
+  gEfiSignedCapsulePkgTokenSpaceGuid.PcdEdkiiSystemFirmwareImageDescriptor|{0x0}|VOID*|0x100
+  gEfiSignedCapsulePkgTokenSpaceGuid.PcdEdkiiSystemFirmwareFileGuid|{0x02, 0x0e, 0x89, 0xb3, 0x6b, 0xc4, 0x70, 0x49, 0x95, 0x36, 0x57, 0x78, 0x7a, 0x9e, 0x06, 0xc7}
+  gEfiMdeModulePkgTokenSpaceGuid.PcdSystemFmpCapsuleImageTypeIdGuid|{0x75, 0xc4, 0x7f, 0x75, 0x22, 0x6b, 0x82, 0x44, 0x86, 0x8e, 0xde, 0xd2, 0x86, 0xf3, 0x09, 0x40}
+!endif
+
 ################################################################################
 #
 # Components Section - list of all EDK II Modules needed by this Platform
@@ -410,6 +436,11 @@
   ArmPlatformPkg/MemoryInitPei/MemoryInitPeim.inf
   ArmPkg/Drivers/CpuPei/CpuPei.inf
   MdeModulePkg/Universal/Variable/Pei/VariablePei.inf
+!if $(CAPSULE_ENABLE)
+  MdeModulePkg/Universal/FaultTolerantWritePei/FaultTolerantWritePei.inf
+  MdeModulePkg/Universal/CapsulePei/CapsulePei.inf
+  Silicon/Marvell/Armada7k8k/Feature/Capsule/SystemFirmwareDescriptor/SystemFirmwareDescriptor.inf
+!endif
   MdeModulePkg/Core/DxeIplPeim/DxeIpl.inf {
     <LibraryClasses>
       NULL|MdeModulePkg/Library/LzmaCustomDecompressLib/LzmaCustomDecompressLib.inf
@@ -525,6 +556,16 @@
       NULL|MdeModulePkg/Library/BootManagerUiLib/BootManagerUiLib.inf
       NULL|MdeModulePkg/Library/BootMaintenanceManagerUiLib/BootMaintenanceManagerUiLib.inf
   }
+
+!if $(CAPSULE_ENABLE)
+  MdeModulePkg/Universal/EsrtDxe/EsrtDxe.inf
+  SignedCapsulePkg/Universal/SystemFirmwareUpdate/SystemFirmwareReportDxe.inf
+  SignedCapsulePkg/Universal/SystemFirmwareUpdate/SystemFirmwareUpdateDxe.inf {
+    <LibraryClasses>
+      FmpAuthenticationLib|SecurityPkg/Library/FmpAuthenticationLibPkcs7/FmpAuthenticationLibPkcs7.inf
+  }
+  MdeModulePkg/Application/CapsuleApp/CapsuleApp.inf
+!endif
 
   #
   # Variable services
