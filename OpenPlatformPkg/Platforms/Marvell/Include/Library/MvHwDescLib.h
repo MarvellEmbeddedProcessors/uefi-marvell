@@ -91,6 +91,25 @@ typedef struct {
 } MVHW_MDIO_DESC;
 
 //
+// Fuse devices description template definition
+//
+#define MVHW_MAX_FUSE_DEVS         7
+
+typedef struct {
+  UINT8 EfuseDevCount;
+  UINT8 BankId[MVHW_MAX_FUSE_DEVS];
+  UINT8 BankType[MVHW_MAX_FUSE_DEVS];
+  UINT8 BankOPMode[MVHW_MAX_FUSE_DEVS];
+  UINTN BankRegBase[MVHW_MAX_FUSE_DEVS];
+  UINTN OTPMemBase[MVHW_MAX_FUSE_DEVS];
+  UINTN RowCount[MVHW_MAX_FUSE_DEVS];
+  UINTN RowLength[MVHW_MAX_FUSE_DEVS];
+  UINTN RowStep[MVHW_MAX_FUSE_DEVS];
+  CHAR16 BankName[MVHW_MAX_FUSE_DEVS][10];
+  UINT8 PriBitOffset[MVHW_MAX_FUSE_DEVS];
+} MVHW_EFUSE_DESC;
+
+//
 // NonDiscoverable devices description template definition
 //
 #define MVHW_MAX_XHCI_DEVS         4
@@ -224,6 +243,64 @@ STATIC \
 MVHW_MDIO_DESC mA7k8kMdioDescTemplate = {\
   2,\
   { MVHW_CP0_MDIO_BASE, MVHW_CP1_MDIO_BASE }\
+}
+
+//
+// Platform description of efuse
+//
+#define MVHW_AP_EFUSE_CTRL_BASE             0xF06F8008
+#define MVHW_AP_EFUSE_HD_MEN_BASE           0xF06F9000
+#define MVHW_AP_EFUSE_LD_MEN_BASE           0xF06F8F00
+#define MVHW_CP0_EFUSE_CTRL_BASE            0xF2400008
+#define MVHW_CP0_EFUSE_LD_MEN_BASE          0xF2400F00
+#define MVHW_CP1_EFUSE_CTRL_BASE            0xF4400008
+#define MVHW_CP1_EFUSE_LD_MEN_BASE          0xF4400F00
+
+#define MVHW_EFUSE_COUNT_PER_CP            2
+#define MVHW_EFUSE_LD_ROW_LEN              256
+#define MVHW_EFUSE_LD_ROW_CNT              1
+#define MVHW_EFUSE_HD_ROW_LEN              65
+#define MVHW_EFUSE_HD_ROW_CNT              64
+#define MVHW_EFUSE_HD_ROW_STEP             16
+
+#define MVHW_AP_EFUSE_HD0                 0
+#define MVHW_AP_EFUSE_LD0                1
+#define MVHW_AP_EFUSE_LD1                2
+#define MVHW_CP0_EFUSE_LD0               3
+#define MVHW_CP0_EFUSE_LD1               4
+#define MVHW_CP1_EFUSE_LD0               5
+#define MVHW_CP1_EFUSE_LD1               6
+
+typedef enum {
+  HighDensity = 0,
+  LowDensity = 1
+} FuseBankType;
+
+typedef enum {
+  BankRW = 0,
+  BankRO = 1,
+  BankWO = 2
+} FuseBankOPMode;
+
+#define DECLARE_A7K8K_EFUSE_TEMPLATE \
+STATIC \
+MVHW_EFUSE_DESC mA7k8kEfuseDescTemplate = {\
+  7,\
+  { MVHW_AP_EFUSE_HD0, MVHW_AP_EFUSE_LD0, MVHW_AP_EFUSE_LD1, MVHW_CP0_EFUSE_LD0,\
+    MVHW_CP0_EFUSE_LD1, MVHW_CP1_EFUSE_LD0, MVHW_CP1_EFUSE_LD1 },\
+  { HighDensity, LowDensity, LowDensity, LowDensity, LowDensity, LowDensity, LowDensity },\
+  { BankRW, BankRO, BankRW, BankRO, BankRW, BankRO, BankRW },\
+  { MVHW_AP_EFUSE_CTRL_BASE, MVHW_AP_EFUSE_CTRL_BASE, MVHW_AP_EFUSE_CTRL_BASE, MVHW_CP0_EFUSE_CTRL_BASE,\
+    MVHW_CP0_EFUSE_CTRL_BASE, MVHW_CP1_EFUSE_CTRL_BASE, MVHW_CP1_EFUSE_CTRL_BASE },\
+  { MVHW_AP_EFUSE_HD_MEN_BASE, MVHW_AP_EFUSE_LD_MEN_BASE, MVHW_AP_EFUSE_LD_MEN_BASE, MVHW_CP0_EFUSE_LD_MEN_BASE,\
+    MVHW_CP0_EFUSE_LD_MEN_BASE, MVHW_CP1_EFUSE_LD_MEN_BASE, MVHW_CP1_EFUSE_LD_MEN_BASE },\
+  { MVHW_EFUSE_HD_ROW_CNT, MVHW_EFUSE_LD_ROW_CNT, MVHW_EFUSE_LD_ROW_CNT, MVHW_EFUSE_LD_ROW_CNT,\
+    MVHW_EFUSE_LD_ROW_CNT, MVHW_EFUSE_LD_ROW_CNT, MVHW_EFUSE_LD_ROW_CNT },\
+  { MVHW_EFUSE_HD_ROW_LEN, MVHW_EFUSE_LD_ROW_LEN, MVHW_EFUSE_LD_ROW_LEN, MVHW_EFUSE_LD_ROW_LEN,\
+    MVHW_EFUSE_LD_ROW_LEN, MVHW_EFUSE_LD_ROW_LEN, MVHW_EFUSE_LD_ROW_LEN },\
+  { MVHW_EFUSE_HD_ROW_STEP, 0, 0, 0, 0, 0, 0 },\
+  { L"AP0-HD0", L"AP0-LD0", L"AP0-LD1", L"CP0-LD0", L"CP0-LD1", L"CP1-LD0", L"CP1-LD1" },\
+  { 0, 0, 0, 0, 0, 0, 0 }\
 }
 
 //
