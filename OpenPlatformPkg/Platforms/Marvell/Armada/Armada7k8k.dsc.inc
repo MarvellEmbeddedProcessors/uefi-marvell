@@ -560,6 +560,7 @@
       NULL|OpenPlatformPkg/Applications/SpiTool/SpiFlashCmd.inf
       NULL|OpenPlatformPkg/Applications/FirmwareUpdate/FUpdate.inf
       NULL|OpenPlatformPkg/Applications/MdioCmd/MdioCmd.inf
+      NULL|OpenPlatformPkg/Applications/FuseCmd/FuseCmd.inf
       HandleParsingLib|ShellPkg/Library/UefiHandleParsingLib/UefiHandleParsingLib.inf
       PrintLib|MdePkg/Library/BasePrintLib/BasePrintLib.inf
       BcfgCommandLib|ShellPkg/Library/UefiShellBcfgCommandLib/UefiShellBcfgCommandLib.inf

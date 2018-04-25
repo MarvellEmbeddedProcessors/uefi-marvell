@@ -61,6 +61,7 @@
 
   #Fuse
   gMarvellTokenSpaceGuid.PcdFuseDryRunEnabled|{ 0x0 }
+  gMarvellTokenSpaceGuid.PcdFuseOperationEnabled|{ 0x0 }
 
   #Timer
   gEmbeddedTokenSpaceGuid.PcdTimerPeriod|10000
@@ -150,7 +151,7 @@
   #MDIO
   gMarvellTokenSpaceGuid.PcdMdioControllers|{ 0x1, 0x1 }
 
-  #PHY
+#PHY
   gMarvellTokenSpaceGuid.PcdPhy2MdioController|{ 0x0, 0x1 }
   gMarvellTokenSpaceGuid.PcdPhyDeviceIds|{ 0x0, 0x0 }
   gMarvellTokenSpaceGuid.PcdPhySmiAddresses|{ 0x1, 0x0 }

@@ -61,6 +61,7 @@
 
   #Fuse
   gMarvellTokenSpaceGuid.PcdFuseDryRunEnabled|{ 0x0 }
+  gMarvellTokenSpaceGuid.PcdFuseOperationEnabled|{ 0x0 }
 
   #Timer
   gEmbeddedTokenSpaceGuid.PcdTimerPeriod|10000
