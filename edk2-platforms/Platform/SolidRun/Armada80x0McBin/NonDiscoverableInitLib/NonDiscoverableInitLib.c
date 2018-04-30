@@ -17,8 +17,14 @@
 #include <Library/DebugLib.h>
 #include <Library/IoLib.h>
 #include <Library/NonDiscoverableDeviceRegistrationLib.h>
+#include <Library/UefiBootServicesTableLib.h>
+#include <Library/MemoryAllocationLib.h>
+#include <Library/DevicePathLib.h>
 
+#include <Protocol/Gpio.h>
 #include <Protocol/NonDiscoverableDevice.h>
+
+#define ARMADA_8040_MCBIN_VBUS_GPIO    15
 
 STATIC
 EFI_STATUS
@@ -27,9 +33,39 @@ Armada80x0McBinInitXhciVbus (
   IN  NON_DISCOVERABLE_DEVICE       *This
   )
 {
-  /* I2C IO-expander GPIO pins modification should be added here */
+  EFI_STATUS              Status = EFI_SUCCESS;
+  MARVELL_GPIO_PROTOCOL   *GpioProtocol;
+  EFI_HANDLE              *ProtHandle = NULL;
+  GPIO_PIN_DESC           McBinVbusEn = {MV_GPIO_CP0_CONTROLLER1, ARMADA_8040_MCBIN_VBUS_GPIO, TRUE};
 
-  return EFI_SUCCESS;
+  Status = MarvellGpioGetHandle (GPIO_DRIVER_TYPE_SOC_CONTROLLER, &ProtHandle);
+  if (EFI_ERROR (Status)) {
+    DEBUG ((DEBUG_ERROR, "Failed to find GPIO protocol, Status: 0x%x\n", Status));
+    return Status;
+  }
+
+  Status = gBS->OpenProtocol (ProtHandle,
+                  &gMarvellGpioProtocolGuid,
+                  (void **)&GpioProtocol,
+                  gImageHandle,
+                  NULL,
+                  EFI_OPEN_PROTOCOL_GET_PROTOCOL);
+  if(EFI_ERROR (Status)) {
+    DEBUG ((DEBUG_ERROR, "Failed to open GPIO protocol, Status: 0x%x\n", Status));
+    return Status;
+  }
+
+  GpioProtocol->DirectionOutput(GpioProtocol,
+                  McBinVbusEn.ControllerId,
+                  McBinVbusEn.PinNumber,
+                  McBinVbusEn.ActiveHigh);
+
+  Status = gBS->CloseProtocol (ProtHandle,
+                  &gMarvellGpioProtocolGuid,
+                  gImageHandle,
+                  NULL);
+
+  return Status;
 }
 
 NON_DISCOVERABLE_DEVICE_INIT
