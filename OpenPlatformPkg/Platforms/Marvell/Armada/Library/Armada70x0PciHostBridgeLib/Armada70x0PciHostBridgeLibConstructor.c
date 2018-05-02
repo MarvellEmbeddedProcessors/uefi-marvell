@@ -210,7 +210,7 @@ ResetPciSlot (
                   GpioProtocol,
                   PcieResetGpio->ControllerId,
                   PcieResetGpio->PinNumber,
-                  0
+                  !PcieResetGpio->ActiveHigh
                   );
   gBS->Stall (20 * 1000);
 
@@ -264,13 +264,15 @@ Armada70x0PciHostBridgeLibConstructor (
     ASSERT (PcieDevDesc->PcieBusMin == 0);
     ASSERT (PcieDevDesc->PcieBaseAddress % SIZE_256MB == 0);
 
-    /* Reset PCIe slot */
-    Status = ResetPciSlot(&PcieDevDesc->PcieResetGpio);
-    if (EFI_ERROR (Status)) {
-      DEBUG ((DEBUG_ERROR,
-        "%a: Cannot reset Pcie Slot\n",
-        __FUNCTION__));
-      return EFI_DEVICE_ERROR;
+    if (PcieDevDesc->HaveResetGpio == TRUE) {
+      /* Reset PCIe slot */
+      Status = ResetPciSlot(&PcieDevDesc->PcieResetGpio);
+      if (EFI_ERROR (Status)) {
+        DEBUG ((DEBUG_ERROR,
+          "%a: Cannot reset Pcie Slot\n",
+          __FUNCTION__));
+        return EFI_DEVICE_ERROR;
+      }
     }
 
     MmioAndThenOr32 (PcieBaseReg + PORT_LINK_CTRL_OFF,

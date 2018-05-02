@@ -117,6 +117,7 @@ typedef struct {
   UINT8 PcieMmio64Translation;
   UINT64 PcieMmio64WinBase;
   UINT64 PcieMmio64WinSize;
+  BOOLEAN HaveResetGpio;
   GPIO_PIN_DESC PcieResetGpio;
 } MV_BOARD_PCIE_DEV_DESC;
 
