@@ -303,9 +303,9 @@ DefinitionBlock ("DSDT.aml", "DSDT", 2, "MVEBU ", "ARMADA8K", 3)
                     WordBusNumber (ResourceProducer, MinFixed, MaxFixed, PosDecode,
                         0x0000,                             // Granularity
                         PCI_BUS_MIN,                        // Range Minimum
-                        PCI_BUS_MAX,                        // Range Maximum
+                        PCI_BUS_MIN,                        // Range Maximum
                         0x0000,                             // Translation Offset
-                        0xff                                // Length
+                        0x1                                 // Length
                         )
                     DWordMemory (ResourceProducer, PosDecode, MinFixed, MaxFixed, NonCacheable, ReadWrite,
                         0x00000000,                         // Granularity

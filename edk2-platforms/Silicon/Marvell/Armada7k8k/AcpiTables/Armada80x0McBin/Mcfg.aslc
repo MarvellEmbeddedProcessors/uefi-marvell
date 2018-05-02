@@ -34,10 +34,18 @@ STATIC ACPI_6_0_MCFG_STRUCTURE Mcfg = {
                    EFI_ACPI_MEMORY_MAPPED_CONFIGURATION_SPACE_ACCESS_TABLE_REVISION),
     EFI_ACPI_RESERVED_QWORD
   }, {
-    FixedPcdGet32 (PcdPciExpressBaseAddress),           // BaseAddress
+    //
+    // NOTE: the Synopsys IP used in the Armada 70x0/80x0 is not 100% ECAM
+    // compliant, and requires a workaround in order for arm64 Linux to use
+    // it when booting in ACPI mode. This involves reducing the bus range to
+    // a single bus, and shifting the config space base address by 32 KB.
+    // This prevents the OS from detecting the same device multiple times
+    // on bus 0.
+    //
+    FixedPcdGet32 (PcdPciExpressBaseAddress) | 0x8000,  // BaseAddress
     0,                                                  // PciSegmentGroupNumber
     0,                                                  // StartBusNumber
-    0xfe,                                               // EndBusNumber
+    0,                                                  // EndBusNumber
     EFI_ACPI_RESERVED_DWORD                             // Reserved
   }
 };
