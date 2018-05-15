@@ -33,11 +33,14 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 *******************************************************************************/
 
 #include <Base.h>
+#include <IndustryStandard/ArmStdSmc.h>
 #include <Library/ArmPlatformLib.h>
+#include <Library/ArmSmcLib.h>
 #include <Library/DebugLib.h>
 #include <Library/HobLib.h>
 #include <Library/IoLib.h>
 #include <Library/MemoryAllocationLib.h>
+#include <Protocol/BoardDesc.h>
 
 // The total number of descriptors, including the final "end-of-table" descriptor.
 #define MAX_VIRTUAL_MEMORY_MAP_DESCRIPTORS 16
@@ -45,6 +48,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // DDR attributes
 #define DDR_ATTRIBUTES_CACHED           ARM_MEMORY_REGION_ATTRIBUTE_NONSECURE_WRITE_BACK
 #define DDR_ATTRIBUTES_UNCACHED         ARM_MEMORY_REGION_ATTRIBUTE_UNCACHED_UNBUFFERED
+
+/* Firmware related definition used for SMC calls */
+#define MV_SIP_DRAM_SIZE                0x82000010
 
 STATIC ARM_MEMORY_REGION_DESCRIPTOR VirtualMemoryTable[MAX_VIRTUAL_MEMORY_MAP_DESCRIPTORS];
 
@@ -55,7 +61,24 @@ GetDramSize (
   UINT64 *MemSize
   )
 {
-  *MemSize = FixedPcdGet64 (PcdSystemMemorySize);
+  ARM_SMC_ARGS  SmcRegs = {0};
+  UINT64 ApBase;
+  UINT8 Ap, ApCount = FixedPcdGet8 (PcdMaxApCount);
+  EFI_STATUS Status;
+
+  *MemSize = 0;
+  SmcRegs.Arg0 = MV_SIP_DRAM_SIZE;
+
+  for (Ap = 0; Ap < ApCount; Ap++) {
+    Status = ArmadaSoCDescApBaseGet (&ApBase, Ap);
+    if (EFI_ERROR (Status)) {
+      return Status;
+    }
+
+    SmcRegs.Arg1 = (UINTN)ApBase;
+    ArmCallSmc (&SmcRegs);
+    *MemSize += SmcRegs.Arg0;
+  }
 
   return EFI_SUCCESS;
 }

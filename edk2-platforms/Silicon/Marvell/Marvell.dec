@@ -74,6 +74,7 @@
 [PcdsFixedAtBuild.common]
 #Board description
   gMarvellTokenSpaceGuid.PcdBoardId|0xFF|UINT8|0x30000071
+  gMarvellTokenSpaceGuid.PcdMaxApCount|0x1|UINT8|0x30000073
   gMarvellTokenSpaceGuid.PcdMaxCpCount|0x2|UINT8|0x30000072
 
 #MPP

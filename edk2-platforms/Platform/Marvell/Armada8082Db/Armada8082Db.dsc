@@ -63,9 +63,6 @@
   #CPU count
   gArmPlatformTokenSpaceGuid.PcdCoreCount|8
 
-  #Memory size
-  gArmTokenSpaceGuid.PcdSystemMemorySize|0x200000000
-
   #Timer
   gEmbeddedTokenSpaceGuid.PcdTimerPeriod|10000
 

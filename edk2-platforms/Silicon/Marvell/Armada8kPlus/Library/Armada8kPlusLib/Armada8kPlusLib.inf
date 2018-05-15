@@ -46,7 +46,9 @@
   Silicon/Marvell/Marvell.dec
 
 [LibraryClasses]
+  ArmadaSoCDescLib
   ArmLib
+  ArmSmcLib
   DebugLib
   MemoryAllocationLib
 
@@ -72,6 +74,8 @@
 
   gMarvellTokenSpaceGuid.PcdDramRemapTarget
   gMarvellTokenSpaceGuid.PcdDramRemapSize
+
+  gMarvellTokenSpaceGuid.PcdMaxApCount
 
   gMarvellTokenSpaceGuid.PcdSpiMemoryBase
 
