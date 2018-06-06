@@ -27,6 +27,7 @@
 // Common macros
 //
 #define MV_SOC_CP_BASE(Cp)               (0xF2000000 + (Cp) * 0x2000000)
+#define MV_SOC_AP_BASE                   0xF0000000
 
 //
 // Platform description of ComPhy controllers
@@ -35,6 +36,23 @@
 #define MV_SOC_HPIPE3_BASE(Cp)           (MV_SOC_CP_BASE ((Cp)) + 0x120000)
 #define MV_SOC_COMPHY_LANE_COUNT         6
 #define MV_SOC_COMPHY_MUX_BITS           4
+
+EFI_STATUS
+EFIAPI
+ArmadaSoCDescApBaseGet (
+  IN OUT UINT64  *ApBase,
+  IN UINT8        ApNr
+  )
+{
+  if (ApNr != 0) {
+    DEBUG ((DEBUG_ERROR, "%a: Only one AP in A7K/A8K SoC\n", __FUNCTION__));
+    return EFI_INVALID_PARAMETER;
+  }
+
+  *ApBase = MV_SOC_AP_BASE;
+
+  return EFI_SUCCESS;
+}
 
 EFI_STATUS
 EFIAPI

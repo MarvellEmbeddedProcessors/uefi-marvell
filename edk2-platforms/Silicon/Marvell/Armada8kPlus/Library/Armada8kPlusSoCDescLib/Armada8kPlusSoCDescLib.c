@@ -39,6 +39,23 @@
 
 EFI_STATUS
 EFIAPI
+ArmadaSoCDescApBaseGet (
+  IN OUT UINT64  *ApBase,
+  IN UINT8        ApNr
+  )
+{
+  if (ApNr >= 4) {
+    DEBUG ((DEBUG_ERROR, "%a: Max 4 AP in A8K-p SoC\n", __FUNCTION__));
+    return EFI_INVALID_PARAMETER;
+  }
+
+  *ApBase = MV_SOC_AP_BASE(ApNr);
+
+  return EFI_SUCCESS;
+}
+
+EFI_STATUS
+EFIAPI
 ArmadaSoCDescComPhyGet (
   IN OUT MV_SOC_COMPHY_DESC  **ComPhyDesc,
   IN OUT UINT8                *DescCount

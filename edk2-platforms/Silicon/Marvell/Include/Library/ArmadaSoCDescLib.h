@@ -31,6 +31,13 @@ typedef struct {
 
 EFI_STATUS
 EFIAPI
+ArmadaSoCDescApBaseGet (
+  IN OUT UINT64  *ApBase,
+  IN UINT8        ApNr
+  );
+
+EFI_STATUS
+EFIAPI
 ArmadaSoCDescComPhyGet (
   IN OUT MV_SOC_COMPHY_DESC  **ComPhyDesc,
   IN OUT UINT8                *DescCount
