@@ -12,13 +12,13 @@
 
 [FD.Armada_Capsule]
 BaseAddress   = 0x00000000 #|gArmTokenSpaceGuid.PcdFdBaseAddress  # The base address of the Firmware in NOR Flash.
-Size          = 0x00400000 #|gArmTokenSpaceGuid.PcdFdSize         # The size in bytes of the FLASH Device
+Size          = 0x00480000 #|gArmTokenSpaceGuid.PcdFdSize         # The size in bytes of the FLASH Device
 ErasePolarity = 1
 
 0x00000000|0x00010000
 FILE = $(WORKSPACE)/$(OUTPUT_DIRECTORY)/$(TARGET)_$(TOOL_CHAIN_TAG)/FV/SYSTEMFIRMWAREDESCRIPTOR.Fv
 
-0x00100000|0x00300000
+0x00100000|0x00380000
 FILE = $(FIRMWARE_IMAGE)
 
 [FV.SystemFirmwareUpdateCargo]
