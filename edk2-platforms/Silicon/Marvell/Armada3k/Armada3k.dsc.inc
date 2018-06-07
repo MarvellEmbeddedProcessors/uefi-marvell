@@ -218,7 +218,7 @@
   gEfiMdeModulePkgTokenSpaceGuid.PcdTurnOffUsbLegacySupport|TRUE
 
 [PcdsFixedAtBuild.common]
-  gEfiMdeModulePkgTokenSpaceGuid.PcdFirmwareVersionString|L"MARVELL_EFI"
+  gEfiMdeModulePkgTokenSpaceGuid.PcdFirmwareVersionString|L"MARVELL UEFI 18.07.0"
   gArmPlatformTokenSpaceGuid.PcdCoreCount|2
 
   gEfiMdePkgTokenSpaceGuid.PcdMaximumUnicodeStringLength|1000000
