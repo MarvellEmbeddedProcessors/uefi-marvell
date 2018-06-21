@@ -12,6 +12,7 @@
 
 **/
 
+#include <Library/ArmadaIcuLib.h>
 #include <Library/DebugLib.h>
 #include <Library/IoLib.h>
 #include <Library/MppLib.h>
@@ -80,6 +81,7 @@ ArmadaPlatInitDxeEntryPoint (
   MvComPhyInit ();
   UtmiPhyInit ();
   MppInitialize ();
+  ArmadaIcuInitialize ();
 
   return EFI_SUCCESS;
 }

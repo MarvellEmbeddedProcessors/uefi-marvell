@@ -32,6 +32,7 @@
 #SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 [LibraryClasses.common]
+  ArmadaIcuLib|Silicon/Marvell/Library/IcuLib/IcuLib.inf
   ArmadaSoCDescLib|Silicon/Marvell/Armada8kPlus/Library/Armada8kPlusSoCDescLib/Armada8kPlusSoCDescLib.inf
   ArmPlatformLib|Silicon/Marvell/Armada8kPlus/Library/Armada8kPlusLib/Armada8kPlusLib.inf
   ComPhyLib|Silicon/Marvell/Library/ComPhyLib/ComPhyLib.inf
