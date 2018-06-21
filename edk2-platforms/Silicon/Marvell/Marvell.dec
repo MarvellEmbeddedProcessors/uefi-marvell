@@ -64,6 +64,7 @@
 
 [LibraryClasses]
   ArmadaBoardDescLib|Include/Library/ArmadaBoardDescLib.h
+  ArmadaIcuLib|Include/Library/ArmadaIcuLib.h
   ArmadaSoCDescLib|Include/Library/ArmadaSoCDescLib.h
   NonDiscoverableInitLib|Include/Library/NonDiscoverableInitLib.h
   SampleAtResetLib|Include/Library/SampleAtResetLib.h
