@@ -68,7 +68,11 @@
   PrintLib|MdePkg/Library/BasePrintLib/BasePrintLib.inf
   PeCoffGetEntryPointLib|MdePkg/Library/BasePeCoffGetEntryPointLib/BasePeCoffGetEntryPointLib.inf
   PeCoffLib|MdePkg/Library/BasePeCoffLib/BasePeCoffLib.inf
+!if $(MVEBU_PCIE_ECAM_WA)
+  IoLib|Silicon/Marvell/Armada7k8k/Library/Armada7k8kIoLib/BaseIoLibIntrinsic.inf
+!else
   IoLib|MdePkg/Library/BaseIoLibIntrinsic/BaseIoLibIntrinsic.inf
+!endif
   UefiDecompressLib|MdePkg/Library/BaseUefiDecompressLib/BaseUefiDecompressLib.inf
   CpuLib|MdePkg/Library/BaseCpuLib/BaseCpuLib.inf
   PciLib|MdePkg/Library/BasePciLibPciExpress/BasePciLibPciExpress.inf
