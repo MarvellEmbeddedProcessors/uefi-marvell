@@ -60,6 +60,9 @@
   #BoardId: Armada-7040-db
   gMarvellTokenSpaceGuid.PcdBoardId|0x0
 
+  #CP110 count
+  gMarvellTokenSpaceGuid.PcdMaxCpCount|0x1
+
   #Timer
   gEmbeddedTokenSpaceGuid.PcdTimerPeriod|10000
 
@@ -150,8 +153,8 @@
   gMarvellTokenSpaceGuid.PcdPcieControllersEnabled|{ 0x0 }
 
   #PciEmulation
-  gMarvellTokenSpaceGuid.PcdPciEXhci|{ 0x1, 0x1, 0x0, 0x0 }
-  gMarvellTokenSpaceGuid.PcdPciEAhci|{ 0x1, 0x0 }
+  gMarvellTokenSpaceGuid.PcdPciEXhci|{ 0x1, 0x1 }
+  gMarvellTokenSpaceGuid.PcdPciEAhci|{ 0x1 }
   gMarvellTokenSpaceGuid.PcdPciESdhci|{ 0x1, 0x1 }
 
   #RTC
