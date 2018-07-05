@@ -16,6 +16,8 @@
 
 #include <Library/ArmLib.h>
 
+#include "IcuInterrupts.h"
+
 //
 // TODO - Assign values from obtained from MV_BOARD_DESC protocol
 //
@@ -97,7 +99,7 @@ DefinitionBlock ("DSDT.aml", "DSDT", 2, "MVEBU ", "ARMADA8K+", 3)
                     )
                 Interrupt (ResourceConsumer, Level, ActiveHigh, Exclusive, ,, )
                 {
-                  95
+                  CP_GIC_SPI_CP0_SATA_H0
                 }
             })
         }
@@ -125,7 +127,7 @@ DefinitionBlock ("DSDT.aml", "DSDT", 2, "MVEBU ", "ARMADA8K+", 3)
                     )
                 Interrupt (ResourceConsumer, Level, ActiveHigh, Exclusive, ,, )
                 {
-                  319
+                  CP_GIC_SPI_CP1_SATA_H0
                 }
             })
         }
@@ -147,7 +149,7 @@ DefinitionBlock ("DSDT.aml", "DSDT", 2, "MVEBU ", "ARMADA8K+", 3)
                     )
                 Interrupt (ResourceConsumer, Level, ActiveHigh, Exclusive, ,, )
                 {
-                  94
+                  CP_GIC_SPI_CP0_USB_H0
                 }
             })
         }
@@ -169,7 +171,7 @@ DefinitionBlock ("DSDT.aml", "DSDT", 2, "MVEBU ", "ARMADA8K+", 3)
                     )
                 Interrupt (ResourceConsumer, Level, ActiveHigh, Exclusive, ,, )
                 {
-                  93
+                  CP_GIC_SPI_CP0_USB_H1
                 }
             })
         }
@@ -235,7 +237,7 @@ DefinitionBlock ("DSDT.aml", "DSDT", 2, "MVEBU ", "ARMADA8K+", 3)
               {
                   Interrupt (ResourceConsumer, Level, ActiveHigh, Exclusive, ,, )
                   {
-                    69, 73, 77, 81, 124, 100,                     // Port0 interrupts
+                    CP_GIC_SPI_PP2_CP0_PORT0
                   }
               })
               Name (_DSD, Package () {
@@ -254,7 +256,7 @@ DefinitionBlock ("DSDT.aml", "DSDT", 2, "MVEBU ", "ARMADA8K+", 3)
               {
                   Interrupt (ResourceConsumer, Level, ActiveHigh, Exclusive, ,, )
                   {
-                    294, 298, 302, 306, 349, 323,                 // Port1 interrupts
+                    CP_GIC_SPI_PP2_CP0_PORT1
                   }
               })
               Name (_DSD, Package () {
@@ -273,7 +275,7 @@ DefinitionBlock ("DSDT.aml", "DSDT", 2, "MVEBU ", "ARMADA8K+", 3)
               {
                   Interrupt (ResourceConsumer, Level, ActiveHigh, Exclusive, ,, )
                   {
-                    294, 298, 302, 306, 349, 323,                 // Port2 interrupts
+                    CP_GIC_SPI_PP2_CP0_PORT2
                   }
               })
               Name (_DSD, Package () {
@@ -322,7 +324,7 @@ DefinitionBlock ("DSDT.aml", "DSDT", 2, "MVEBU ", "ARMADA8K+", 3)
               {
                   Interrupt (ResourceConsumer, Level, ActiveHigh, Exclusive, ,, )
                   {
-                    293, 297, 301, 305, 348, 324,                 // Port0 interrupts
+                    CP_GIC_SPI_PP2_CP1_PORT0
                   }
               })
               Name (_DSD, Package () {
