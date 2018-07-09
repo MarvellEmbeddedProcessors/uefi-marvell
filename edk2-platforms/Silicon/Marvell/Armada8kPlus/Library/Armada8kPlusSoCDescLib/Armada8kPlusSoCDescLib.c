@@ -183,6 +183,39 @@ ArmadaSoCDescI2cGet (
 }
 
 //
+// Allocate the MSI address per interrupt Group,
+// unsupported Groups get NULL address.
+//
+STATIC
+MV_SOC_ICU_DESC mA8kPlusIcuDescTemplate = {
+  160,                                         /* GIC SPI mapping offset */
+  {
+    {ICU_GROUP_NSR,  0xeb000040, 0xeb000048},  /* Non secure interrupts*/
+    {ICU_GROUP_SR,   0x0,        0x0},         /* Secure interrupts */
+    {ICU_GROUP_LPI,  0x0,        0x0},         /* LPI interrupts */
+    {ICU_GROUP_VLPI, 0x0,        0x0},         /* Virtual LPI interrupts */
+    {ICU_GROUP_SEI,  0xe83f0230, 0xe83f0230},  /* System error interrupts */
+    {ICU_GROUP_REI,  0xe83f0270, 0xe83f0270},  /* RAM error interrupts */
+  }
+};
+
+EFI_STATUS
+EFIAPI
+ArmadaSoCDescIcuGet (
+  IN OUT MV_SOC_ICU_DESC  **IcuDesc
+  )
+{
+  *IcuDesc = AllocateCopyPool (sizeof (mA8kPlusIcuDescTemplate),
+               &mA8kPlusIcuDescTemplate);
+  if (*IcuDesc == NULL) {
+    DEBUG ((DEBUG_ERROR, "%a: Cannot allocate memory\n", __FUNCTION__));
+    return EFI_OUT_OF_RESOURCES;
+  }
+
+  return EFI_SUCCESS;
+}
+
+//
 // Platform description of MDIO controllers
 //
 #define MV_SOC_MDIO_BASE(Cp)            MV_SOC_CP_BASE ((Cp)) + 0x12A200
