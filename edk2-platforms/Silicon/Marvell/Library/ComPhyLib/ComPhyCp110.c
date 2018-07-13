@@ -190,7 +190,7 @@ ComPhyCp110Init (
   MV_BOARD_AHCI_DESC *AhciBoardDesc;
   UINT32 ComPhyMaxCount, Lane;
   UINT32 PcieWidth = 0;
-  UINT8 ChipId;
+  UINTN ChipId, UnitId;
 
   ComPhyMaxCount = PtrChipCfg->LanesCount;
   ComPhyBaseAddr = PtrChipCfg->ComPhyBaseAddr;
@@ -257,18 +257,13 @@ ComPhyCp110Init (
       break;
     case COMPHY_TYPE_SGMII0:
     case COMPHY_TYPE_SGMII1:
-    case COMPHY_TYPE_SGMII3:
-      /* UINIT_ID is relevant only for SGMII2 - for other it will be ignored by firmware */
-      Status = ComPhySmc (MV_SIP_CPMPHY_POWER_ON,
-                 PtrChipCfg->ComPhyBaseAddr,
-                 Lane,
-                 COMPHY_FW_FORMAT (COMPHY_SGMII_MODE, COMPHY_UNIT_ID0, PtrComPhyMap->Speed));
-      break;
     case COMPHY_TYPE_SGMII2:
+    case COMPHY_TYPE_SGMII3:
+      UnitId =  PtrComPhyMap->Type - COMPHY_TYPE_SGMII0;
       Status = ComPhySmc (MV_SIP_CPMPHY_POWER_ON,
                  PtrChipCfg->ComPhyBaseAddr,
                  Lane,
-                 COMPHY_FW_FORMAT (COMPHY_SGMII_MODE, COMPHY_UNIT_ID2, PtrComPhyMap->Speed));
+                 COMPHY_FW_FORMAT (COMPHY_SGMII_MODE, UnitId, PtrComPhyMap->Speed));
       break;
     case COMPHY_TYPE_SFI:
       Status = ComPhySmc (MV_SIP_CPMPHY_POWER_ON,
