@@ -150,7 +150,7 @@
   gMarvellTokenSpaceGuid.PcdPp2Controllers|{ 0x1 }
 
   #Pcie
-  gMarvellTokenSpaceGuid.PcdPcieControllersEnabled|{ 0x0 }
+  gMarvellTokenSpaceGuid.PcdPcieControllersEnabled|{ 0x1 }
 
   #PciEmulation
   gMarvellTokenSpaceGuid.PcdPciEXhci|{ 0x1, 0x1 }
