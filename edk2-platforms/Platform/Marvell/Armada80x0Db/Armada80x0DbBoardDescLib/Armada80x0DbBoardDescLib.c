@@ -22,8 +22,38 @@
 #include <Library/UefiBootServicesTableLib.h>
 
 //
-// Platform description of PCIe - TBD
+// Platform description of PCIe
 //
+#define MV_80X0DB_CP0_PCIE0_BASE            0xE0000000
+#define MV_80X0DB_CP0_IO_TRANSLATION        0xEFF00000
+#define MV_80X0DB_CP0_IO_BASE               0
+#define MV_80X0DB_CP0_IO_SIZE               0x10000
+#define MV_80X0DB_CP0_MMIO32_BASE           0xC0000000
+#define MV_80X0DB_CP0_MMIO32_SIZE           0x20000000
+#define MV_80X0DB_CP0_MMIO64_BASE           0x800000000
+#define MV_80X0DB_CP0_MMIO64_SIZE           0x100000000
+
+STATIC
+MV_BOARD_PCIE_DEV_DESC m80x0DbPcieDevDescTemplate[] = {
+  {
+    0, /* CP0 controller 0 */
+    0, /* RegBase would be filled with the information from ArmadaSoCDescLib */
+    0,
+    0xfe,
+    MV_80X0DB_CP0_PCIE0_BASE,
+    MV_80X0DB_CP0_IO_TRANSLATION,
+    MV_80X0DB_CP0_IO_BASE,
+    MV_80X0DB_CP0_IO_SIZE,
+    0,
+    MV_80X0DB_CP0_MMIO32_BASE,
+    MV_80X0DB_CP0_MMIO32_SIZE,
+    0,
+    MV_80X0DB_CP0_MMIO64_BASE,
+    MV_80X0DB_CP0_MMIO64_SIZE,
+    FALSE,
+    { 0 }
+   }
+};
 
 EFI_STATUS
 EFIAPI
@@ -32,8 +62,12 @@ ArmadaBoardDescPcieGet (
   IN OUT MV_BOARD_PCIE_DEV_DESC  **PcieDesc
   )
 {
-  /* PCIe support will be added later */
-  *PcieDevCount = 0;
+  *PcieDevCount = ARRAY_SIZE (m80x0DbPcieDevDescTemplate);
+
+  *PcieDesc = m80x0DbPcieDevDescTemplate;
+  if (*PcieDesc == NULL) {
+    DEBUG ((DEBUG_ERROR, "%a: Cannot allocate memory\n", __FUNCTION__));
+  }
 
   return EFI_SUCCESS;
 }
