@@ -215,6 +215,26 @@ DefinitionBlock ("DSDT.aml", "DSDT", 2, "MVEBU ", "ARMADA7K", 3)
             }
         }
 
+        Device (RNG0)
+        {
+            Name (_HID, "PRP0001")                                 // _HID: Hardware ID
+            Name (_UID, 0x00)                                      // _UID: Unique ID
+            Name (_CRS, ResourceTemplate ()
+            {
+                Memory32Fixed (ReadWrite, 0xF2760000, 0x7D)
+                Interrupt (ResourceConsumer, Level, ActiveHigh, Shared)
+                {
+                  CP_GIC_SPI_CP0_EIP_RNG0
+                }
+            })
+            Name (_DSD, Package () {
+                ToUUID("daffd814-6eba-4d8c-8a91-bc9bbf4aa301"),
+                Package () {
+                    Package () { "compatible", "inside-secure,safexcel-eip76" },
+                }
+            })
+        }
+
         //
         // PCIe Root Bus
         //
