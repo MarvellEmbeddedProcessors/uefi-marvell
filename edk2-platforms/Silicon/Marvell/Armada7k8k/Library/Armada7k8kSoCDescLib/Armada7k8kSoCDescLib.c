@@ -244,8 +244,10 @@ ArmadaSoCDescGpioGet (
 //
 // Platform description of I2C controllers
 //
-#define MV_SOC_I2C_PER_CP_COUNT         2
-#define MV_SOC_I2C_BASE(I2c)         (0x701000 + (I2c) * 0x100)
+#define MV_SOC_I2C_PER_AP_COUNT   1
+#define MV_SOC_I2C_AP_BASE        (MV_SOC_AP_BASE + 0x511000)
+#define MV_SOC_I2C_PER_CP_COUNT   3
+#define MV_SOC_I2C_CP_BASE(I2c)   ((I2c < 2) ? (0x701000 + (I2c) * 0x100) : 0x211000)
 
 EFI_STATUS
 EFIAPI
@@ -258,23 +260,25 @@ ArmadaSoCDescI2cGet (
   UINT8 CpCount = FixedPcdGet8 (PcdMaxCpCount);
   UINT8 Index, CpIndex, I2cIndex = 0;
 
-  Desc = AllocateZeroPool (CpCount * MV_SOC_I2C_PER_CP_COUNT *
-                           sizeof (MV_SOC_I2C_DESC));
+  *DescCount = CpCount * MV_SOC_I2C_PER_CP_COUNT + MV_SOC_I2C_PER_AP_COUNT;
+  Desc = AllocateZeroPool (*DescCount * sizeof (MV_SOC_I2C_DESC));
   if (Desc == NULL) {
     DEBUG ((DEBUG_ERROR, "%a: Cannot allocate memory\n", __FUNCTION__));
     return EFI_OUT_OF_RESOURCES;
   }
 
+  Desc[I2cIndex].I2cBaseAddress = MV_SOC_I2C_AP_BASE;
+  I2cIndex++;
+
   for (CpIndex = 0; CpIndex < CpCount; CpIndex++) {
     for (Index = 0; Index < MV_SOC_I2C_PER_CP_COUNT; Index++) {
       Desc[I2cIndex].I2cBaseAddress =
-                         MV_SOC_CP_BASE (CpIndex) + MV_SOC_I2C_BASE (Index);
+                         MV_SOC_CP_BASE (CpIndex) + MV_SOC_I2C_CP_BASE (Index);
       I2cIndex++;
     }
   }
 
   *I2cDesc = Desc;
-  *DescCount = I2cIndex;
 
   return EFI_SUCCESS;
 }
