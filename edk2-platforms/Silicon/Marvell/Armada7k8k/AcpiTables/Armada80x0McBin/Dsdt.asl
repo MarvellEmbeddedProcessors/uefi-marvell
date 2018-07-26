@@ -28,6 +28,7 @@
 #define PCI_IO_BASE        0x0
 #define PCI_IO_SIZE        0x10000
 #define PCI_IO_TRANSLATION 0xEFF00000
+#define PCI_ECAM_BASE      0xE0008000
 
 DefinitionBlock ("DSDT.aml", "DSDT", 2, "MVEBU ", "ARMADA8K", 3)
 {
@@ -384,7 +385,7 @@ DefinitionBlock ("DSDT.aml", "DSDT", 2, "MVEBU ", "ARMADA8K", 3)
                 Name (_CRS, ResourceTemplate ()
                 {
                     Memory32Fixed (ReadWrite,
-                                   Add (FixedPcdGet32 (PcdPciExpressBaseAddress), 0x8000),
+                                   PCI_ECAM_BASE,
                                    0x10000000
                                    )
                 })
@@ -539,7 +540,7 @@ DefinitionBlock ("DSDT.aml", "DSDT", 2, "MVEBU ", "ARMADA8K", 3)
             //
             Device (RP0)
             {
-                Name (_ADR, Add (FixedPcdGet32 (PcdPciExpressBaseAddress), 0x8000))  // _ADR: Bus 0, Dev 0, Func 0
+                Name (_ADR, PCI_ECAM_BASE)  // _ADR: Bus 0, Dev 0, Func 0
             }
         }
     }
