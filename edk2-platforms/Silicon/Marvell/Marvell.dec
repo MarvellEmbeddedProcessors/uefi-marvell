@@ -212,6 +212,7 @@
   gMarvellTokenSpaceGuid.PcdPp2PortIds|{ 0x0 }|VOID*|0x300002C
 
 #Pcie
+  gMarvellTokenSpaceGuid.PcdPciBusCount|0x1|UINT32|0x300003F
   gMarvellTokenSpaceGuid.PcdPcieControllersEnabled|{ 0x0 }|VOID*|0x3000040
 
 #PciEmulation

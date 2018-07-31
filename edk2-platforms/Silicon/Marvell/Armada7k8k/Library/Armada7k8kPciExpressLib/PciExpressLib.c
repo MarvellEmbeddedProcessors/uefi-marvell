@@ -21,6 +21,7 @@
 #include <Library/DebugLib.h>
 #include <Library/PcdLib.h>
 
+#define PCI_EXPRESS_BASE_ALGINMENT    ~0xfffffff
 
 /**
   Assert the validity of a PCI address. A valid PCI address should contain 1's
@@ -102,7 +103,7 @@ GetPciExpressBaseAddress (
   VOID
   )
 {
-  return (VOID*)(UINTN) PcdGet64 (PcdPciExpressBaseAddress);
+  return (VOID*)(UINTN) (PcdGet64 (PcdPciExpressBaseAddress) & PCI_EXPRESS_BASE_ALGINMENT);
 }
 
 /**

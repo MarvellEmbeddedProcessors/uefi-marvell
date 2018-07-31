@@ -20,7 +20,8 @@
 // TODO - Assign values from obtained from MV_BOARD_DESC protocol
 //
 #define PCI_BUS_MIN        0x0
-#define PCI_BUS_MAX        0xfe
+#define PCI_BUS_MAX        FixedPcdGet32 (PcdPciBusMax)
+#define PCI_BUS_COUNT      FixedPcdGet32 (PcdPciBusCount)
 #define PCI_MMIO32_BASE    0xC0000000
 #define PCI_MMIO32_SIZE    0x20000000
 #define PCI_MMIO64_BASE    0x800000000
@@ -28,7 +29,7 @@
 #define PCI_IO_BASE        0x0
 #define PCI_IO_SIZE        0x10000
 #define PCI_IO_TRANSLATION 0xEFF00000
-#define PCI_ECAM_BASE      0xE0008000
+#define PCI_ECAM_BASE      FixedPcdGet32 (PcdPciExpressBaseAddress)
 
 DefinitionBlock ("DSDT.aml", "DSDT", 2, "MVEBU ", "ARMADA8K", 3)
 {
@@ -346,9 +347,9 @@ DefinitionBlock ("DSDT.aml", "DSDT", 2, "MVEBU ", "ARMADA8K", 3)
                     WordBusNumber (ResourceProducer, MinFixed, MaxFixed, PosDecode,
                         0x0000,                             // Granularity
                         PCI_BUS_MIN,                        // Range Minimum
-                        PCI_BUS_MIN,                        // Range Maximum
+                        PCI_BUS_MAX,                        // Range Maximum
                         0x0000,                             // Translation Offset
-                        0x1                                 // Length
+                        PCI_BUS_COUNT                       // Length
                         )
                     DWordMemory (ResourceProducer, PosDecode, MinFixed, MaxFixed, NonCacheable, ReadWrite,
                         0x00000000,                         // Granularity

@@ -42,6 +42,7 @@
 [FixedPcd]
   gArmTokenSpaceGuid.PcdGicInterruptInterfaceBase
   gArmTokenSpaceGuid.PcdGicDistributorBase
+  gArmTokenSpaceGuid.PcdPciBusMax
 
   gArmPlatformTokenSpaceGuid.PcdCoreCount
 
@@ -58,6 +59,8 @@
   gEfiMdeModulePkgTokenSpaceGuid.PcdSerialClockRate
 
   gEfiMdePkgTokenSpaceGuid.PcdPciExpressBaseAddress
+
+  gMarvellTokenSpaceGuid.PcdPciBusCount
 
 [BuildOptions]
   *_*_*_ASLCC_FLAGS = -DARMADA8K

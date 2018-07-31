@@ -408,7 +408,15 @@
   gEfiMdeModulePkgTokenSpaceGuid.PcdFlashNvStorageFtwSpareSize|0x00010000
 
   # PCIE
+!if $(MVEBU_PCIE_ECAM_WA)
+  gArmTokenSpaceGuid.PcdPciBusMax|0xFE
+  gMarvellTokenSpaceGuid.PcdPciBusCount|0xFF
   gEfiMdePkgTokenSpaceGuid.PcdPciExpressBaseAddress|0xE0000000
+!else
+  gArmTokenSpaceGuid.PcdPciBusMax|0x0
+  gMarvellTokenSpaceGuid.PcdPciBusCount|0x1
+  gEfiMdePkgTokenSpaceGuid.PcdPciExpressBaseAddress|0xE0008000
+!endif
   gEmbeddedTokenSpaceGuid.PcdPrePiCpuIoSize|16
 
   # SoC Configuration Space
