@@ -78,7 +78,11 @@
   PciLib|MdePkg/Library/BasePciLibPciExpress/BasePciLibPciExpress.inf
   PciHostBridgeLib|Silicon/Marvell/Armada7k8k/Library/Armada7k8kPciHostBridgeLib/PciHostBridgeLib.inf
   PciSegmentLib|MdePkg/Library/BasePciSegmentLibPci/BasePciSegmentLibPci.inf
+!if $(MVEBU_PCIE_ECAM_WA)
+  PciExpressLib|MdePkg/Library/BasePciExpressLib/BasePciExpressLib.inf
+!else
   PciExpressLib|Silicon/Marvell/Armada7k8k/Library/Armada7k8kPciExpressLib/PciExpressLib.inf
+!endif
 
 # Basic UEFI services libraries
   UefiLib|MdePkg/Library/UefiLib/UefiLib.inf
