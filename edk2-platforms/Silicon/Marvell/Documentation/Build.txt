@@ -1,0 +1,75 @@
+UEFI Build Instructions
+=======================
+
+Current support is basing on the mainline Tianocore edk2-platforms repository.
+For generic build instructions and more detailed explanation, please refer to a:
+https://github.com/tianocore/edk2-platforms/blob/master/Readme.md
+
+Although many versions of Linaro toolchains are supported, it is recommended
+to use gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu.
+If you are using different toolchain, the following details the supported versions, where
+{toolchain_name} is the name of the toolchain:
+
+    - GCC5
+
+Supported {platform} are:
+
+    - Armada70x0Db
+    - Armada80x0Db
+    - Armada80x0McBin
+
+Supported {target} are:
+
+    - DEBUG
+    - RELEASE
+
+
+Build Procedure
+---------------
+
+1. Prerequisites:
+
+    Clone into edk2 repositories and apply Marvell patches (Please refer to
+    Release notes for instructions).
+
+2. Prepare environment:
+
+    a) Several packages are requres for setting up an edk2 build environment::
+
+        # sudo apt-get install build-essential uuid-dev
+        # sudo apt-get install lib32stdc++6 lib32z1
+        # sudo apt-get install acpica-tools
+
+    b) Set up EDK2 environment::
+
+        # export WORKSPACE=$PWD
+        # export PACKAGES_PATH=$PWD:$PWD/edk2-platforms
+        # source edksetup.sh
+
+    c) Build base tools::
+
+        # make -C BaseTools
+
+    d) Set {toolchain_name}_AARCH64_PREFIX to path to your cross compiler::
+
+        # export {toolchain_name}_AARCH64_PREFIX=/path/to/toolchain
+
+       Example::
+
+        # export GCC5_AARCH64_PREFIX=/opt/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/bin/aarch64-linux-gnu-
+
+3. Build EDK2 for selected {platform}::
+
+        # build -a AARCH64 -t {toolchain_name} -b {target} -p Platform/Marvell/{platform}/{platform}.dsc
+
+   Example 1. for building edk2 for Armada70x0Db platform with GCC5 for DEBUG::
+
+        # build -a AARCH64 -t GCC5 -b DEBUG -p Platform/Marvell/Armada70x0Db/Armada70x0Db.dsc
+
+   Example 2. for building edk2 for Armada80x0McBin platform with GCC5 for RELEASE and tftp shell command enabled::
+
+        # build -a AARCH64 -t GCC5 -b RELEASE -D INCLUDE_TFTP_COMMAND -p Platform/SolidRun/Armada80x0McBin/Armada80x0McBin.dsc
+
+   The output binary can be found in::
+
+        # PathToYourEdk2/Build/${platform}-AARCH64/${target}_${toolchain_name}/FV/ARMADA_EFI.fd
