@@ -1,0 +1,155 @@
+.. _uefi_cmd:
+
+UEFI Shell Commands
+===================
+
+For standard UEFI Shell commands, please refer to the latest official
+specification:
+http://www.uefi.org/sites/default/files/resources/UEFI_Shell_2_2.pdf
+
+
+eeprom command
+--------------
+eeprom command is used for reading/writing data to I2C Eeprom memory.
+Command syntax and possible parameters are as below::
+
+  eeprom [read | write | list] [-m] [<Chip>] [<Bus>] [<Address>] [<Length>] [-d <Data>] [-m <MemoryAddress>]
+
+  read           - read from EEPROM
+  write          - write Data to EEPROM
+  list           - list available EEPROM devices
+  Chip           - EEPROM bus address
+  Bus            - enabled I2C bus index
+  Address        - address in EEPROM to read/write
+  Data           - data byte to be written, requires '-d' flag
+  Length         - length of data to read/write/copy
+  MemoryAddress  - address of data in RAM to be copied, requires '-m' flag
+
+Examples:
+
+  (1) List devices::
+
+        Shell> eeprom list
+
+  (2) Read 16 bytes from address 0x0 in chip 0x57 on bus#1::
+
+        Shell> eeprom read 0x57 0x1 0x0 0x10
+
+  (3) Fill 16 bytes with 0xab pattern at address 0x0 in chip 0x57 on bus#1::
+
+        Shell> eeprom write 0x57 0x1 0x0 0x10 -d 0xab
+
+  (4) Copy 32 bytes from 0x2000000 in RAM to offset 0x0 of chip 0x57 on bus#1::
+
+        Shell> eeprom write 0x57 0x1 0x0 0x20 -m 0x2000000
+
+  (5) Copy 32 bytes from offset 0x0 of chip 0x57 on bus#1 to RAM::
+
+        Shell> eeprom read 0x57 0x1 0x0 0x20 -m 0x2000000
+
+
+fupdate command
+---------------
+Burning an image in other boot sources (like SD/MMC or NAND)
+is not supported. Command syntax is as follows::
+
+  fupdate <path/to/local/flash-image.bin>
+
+Example:
+
+  Burn file after downloading via tftp.
+  Enter desired partiton::
+
+    Shell> fs1:
+
+  Configure network interface::
+
+    FS1:\> ifconfig -s eth2 dhcp
+
+  Download file::
+
+    FS1:\> tftp -i eth2 10.2.0.102 srv/flash-image.bin
+
+  Burn file::
+
+    FS1:\> fupdate flash-image.bin
+
+
+mdio command
+------------
+mdio command is used for reading/writing data to devices
+attached to MDIO bus of the SoC.
+Command syntax and possible parameters is as follows::
+
+  mdio [read | write | counter] [<Bus>] [<Address>] [<Reg>] [-d <Data>] [-s <Source>]
+
+  read           - read from MDIO device
+  write          - write to MDIO device
+  counter        - read counter from SOHO switch (optional)
+  Bus            - MDIO bus index
+  Address        - Device address on the MDIO bus
+  Reg            - Register offset in the accessed device
+
+Examples:
+
+  (1) Read 0x10 register of the device at 0xA address on MDIObus#0::
+
+        Shell> mdio read 0x0 0xA 0x10
+
+  (2) Write '0xAABB' pattern to register 0x10 of the device at 0xA address on MDIO bus#0::
+
+        Shell> mdio write 0x0 0xA 0x10 0xAABB
+
+  (3) Read counter of the SOHO switch at address 0xA on MDIO bus#0::
+
+        Shell> mdio counter 0x0 0xA
+
+
+
+sf command
+----------
+sf command is used for reading/writing data to devices
+attached to the SPI bus of the SoC.
+Command syntax and possible parameters are as follows::
+
+  sf [probe | read | readfile | write |
+     writefile | erase | update | updatefile] [<Address> | <FilePath>] [<Offset>] [<Length>]
+
+     Length        - Number of bytes to send
+     Address       - Address in RAM to store/load data
+     Offset        - Offset from beggining of SPI flash to store/load data
+     FilePath      - Path to file to read data into or write/update data from
+
+Examples:
+
+  Check if the SPI flash is accessible. Must be run once before any other usage::
+
+        sf probe
+
+  Read 32 bytes from 0xe00000 of SPI flash into RAM at address 0x100000::
+
+        sf read 0x100000 0xe00000 32
+
+  Read 0x20 bytes from 0x200000 of SPI flash into RAM at address 0x300000::
+
+        sf read 0x300000 0x200000 0x20
+
+  Erase 0x10000 bytes from offset 0x100000 of SPI flash::
+
+        sf erase 0x100000 0x100000
+
+  Write 16 bytes from 0x200000 at RAM into SPI flash at address 0x4000000::
+
+        sf write 0x200000 0x4000000 16
+
+  Update 100 bytes from 0x100000 at RAM in SPI flash at address 0xe00000::
+
+        sf update 0x100000 0xe00000 100
+
+  Read 0x3000 bytes from 0x0 of SPI flash into file fs2:file.bin::
+
+        sf readfile fs2:file.bin 0x0 0x3000
+
+  Update data in SPI flash at 0x3000000 from file file.bin::
+
+       sf update Linux.efi 0x3000000
