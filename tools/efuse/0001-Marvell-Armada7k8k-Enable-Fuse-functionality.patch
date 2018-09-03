@@ -1,0 +1,62 @@
+From cae32e8a212499be2b8fced44a2d2013b98d66e1 Mon Sep 17 00:00:00 2001
+From: Marcin Wojtas <mw@semihalf.com>
+Date: Thu, 26 Jul 2018 04:26:15 +0200
+Subject: [PATCH] Marvell/Armada7k8k: Enable Fuse functionality
+
+This patch enables compilation of fuse shell command
+and operation on Armada70x0Db and Armada80x0Db.
+
+Change-Id: I3c900364e18efbef60754161a8781812ed72ac3d
+Contributed-under: TianoCore Contribution Agreement 1.1
+Signed-off-by: Marcin Wojtas <mw@semihalf.com>
+---
+ edk2-platforms/Platform/Marvell/Armada70x0Db/Armada70x0Db.dsc | 4 ++++
+ edk2-platforms/Platform/Marvell/Armada80x0Db/Armada80x0Db.dsc | 4 ++++
+ edk2-platforms/Silicon/Marvell/Armada7k8k/Armada7k8k.dsc.inc  | 1 +
+ 3 files changed, 9 insertions(+)
+
+diff --git a/edk2-platforms/Platform/Marvell/Armada70x0Db/Armada70x0Db.dsc b/edk2-platforms/Platform/Marvell/Armada70x0Db/Armada70x0Db.dsc
+index cadd492..a1b75a4 100644
+--- a/edk2-platforms/Platform/Marvell/Armada70x0Db/Armada70x0Db.dsc
++++ b/edk2-platforms/Platform/Marvell/Armada70x0Db/Armada70x0Db.dsc
+@@ -88,6 +88,10 @@
+   gMarvellTokenSpaceGuid.PcdChip1MppSel5|{ 0x1, 0x1, 0x1, 0x1, 0x1, 0x1, 0xE, 0xE, 0xE, 0xE }
+   gMarvellTokenSpaceGuid.PcdChip1MppSel6|{ 0xE, 0xE, 0xE, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0 }
+ 
++  #Fuse
++  gMarvellTokenSpaceGuid.PcdFuseDryRunEnabled|{ 0x0 }
++  gMarvellTokenSpaceGuid.PcdFuseOperationEnabled|{ 0x1 }
++
+   # I2C
+   gMarvellTokenSpaceGuid.PcdI2cSlaveAddresses|{ 0x50, 0x57, 0x60, 0x21 }
+   gMarvellTokenSpaceGuid.PcdI2cSlaveBuses|{ 0x0, 0x0, 0x0, 0x0 }
+diff --git a/edk2-platforms/Platform/Marvell/Armada80x0Db/Armada80x0Db.dsc b/edk2-platforms/Platform/Marvell/Armada80x0Db/Armada80x0Db.dsc
+index f771f40..af6c2b2 100644
+--- a/edk2-platforms/Platform/Marvell/Armada80x0Db/Armada80x0Db.dsc
++++ b/edk2-platforms/Platform/Marvell/Armada80x0Db/Armada80x0Db.dsc
+@@ -97,6 +97,10 @@
+   gMarvellTokenSpaceGuid.PcdChip2MppSel5|{ 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF }
+   gMarvellTokenSpaceGuid.PcdChip2MppSel6|{ 0xFF, 0xFF, 0xFF, 0x0,  0x0,  0x0,  0x0,  0x0,  0x0,  0x0  }
+ 
++  #Fuse
++  gMarvellTokenSpaceGuid.PcdFuseDryRunEnabled|{ 0x0 }
++  gMarvellTokenSpaceGuid.PcdFuseOperationEnabled|{ 0x1 }
++
+   # I2C
+   gMarvellTokenSpaceGuid.PcdI2cSlaveAddresses|{ 0x50, 0x57, 0x50, 0x57, 0x21, 0x25 }
+   gMarvellTokenSpaceGuid.PcdI2cSlaveBuses|{ 0x0, 0x0, 0x1, 0x1, 0x0, 0x0 }
+diff --git a/edk2-platforms/Silicon/Marvell/Armada7k8k/Armada7k8k.dsc.inc b/edk2-platforms/Silicon/Marvell/Armada7k8k/Armada7k8k.dsc.inc
+index 0eed8b0..cb979ad 100644
+--- a/edk2-platforms/Silicon/Marvell/Armada7k8k/Armada7k8k.dsc.inc
++++ b/edk2-platforms/Silicon/Marvell/Armada7k8k/Armada7k8k.dsc.inc
+@@ -616,6 +616,7 @@
+       NULL|Silicon/Marvell/Applications/SpiTool/SpiFlashCmd.inf
+       NULL|Silicon/Marvell/Applications/FirmwareUpdate/FUpdate.inf
+       NULL|Silicon/Marvell/Applications/MdioCmd/MdioCmd.inf
++      NULL|Silicon/Marvell/Applications/FuseCmd/FuseCmd.inf
+       HandleParsingLib|ShellPkg/Library/UefiHandleParsingLib/UefiHandleParsingLib.inf
+       PrintLib|MdePkg/Library/BasePrintLib/BasePrintLib.inf
+       BcfgCommandLib|ShellPkg/Library/UefiShellBcfgCommandLib/UefiShellBcfgCommandLib.inf
+-- 
+2.7.4
+
