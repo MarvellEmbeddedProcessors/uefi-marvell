@@ -16,7 +16,11 @@
 
 #include <Protocol/DriverBinding.h>
 
+#define MAX_NON_DISCOVERABLE_PCI_DEVICE_ID   (32 * 256)
+
+STATIC UINTN mUniqueIdCounter;
 EFI_CPU_ARCH_PROTOCOL      *mCpu;
+
 
 //
 // We only support the following device types
@@ -141,6 +145,11 @@ NonDiscoverablePciDeviceStart (
   NON_DISCOVERABLE_PCI_DEVICE   *Dev;
   EFI_STATUS                    Status;
 
+  ASSERT (mUniqueIdCounter < MAX_NON_DISCOVERABLE_PCI_DEVICE_ID);
+  if (mUniqueIdCounter >= MAX_NON_DISCOVERABLE_PCI_DEVICE_ID) {
+    return EFI_OUT_OF_RESOURCES;
+  }
+
   Dev = AllocateZeroPool (sizeof *Dev);
   if (Dev == NULL) {
     return EFI_OUT_OF_RESOURCES;
@@ -166,6 +175,8 @@ NonDiscoverablePciDeviceStart (
   if (EFI_ERROR (Status)) {
     goto CloseProtocol;
   }
+
+  Dev->UniqueId = mUniqueIdCounter++;
 
   return EFI_SUCCESS;
 
