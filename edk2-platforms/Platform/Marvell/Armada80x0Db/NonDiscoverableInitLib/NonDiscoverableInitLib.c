@@ -24,9 +24,48 @@
 #include <Protocol/Gpio.h>
 #include <Protocol/NonDiscoverableDevice.h>
 
-#define ARMADA_80x0_DB_VBUS0_IOEXPANDER   0
-#define ARMADA_80x0_DB_VBUS1_IOEXPANDER   1
-#define ARMADA_80x0_DB_VBUS2_IOEXPANDER   0
+#define ARMADA_80x0_DB_IO_EXPANDER0       0
+#define ARMADA_80x0_DB_VBUS0_PIN          0
+#define ARMADA_80x0_DB_VBUS0_LIMIT_PIN    4
+#define ARMADA_80x0_DB_VBUS1_PIN          1
+#define ARMADA_80x0_DB_VBUS1_LIMIT_PIN    5
+
+#define ARMADA_80x0_DB_IO_EXPANDER1       1
+#define ARMADA_80x0_DB_VBUS2_PIN          0
+#define ARMADA_80x0_DB_VBUS2_LIMIT_PIN    4
+
+STATIC CONST GPIO_PIN_DESC mArmada80x0DbVbusEn[] = {
+  {
+    ARMADA_80x0_DB_IO_EXPANDER0,
+    ARMADA_80x0_DB_VBUS0_PIN,
+    TRUE,
+  },
+  {
+    ARMADA_80x0_DB_IO_EXPANDER0,
+    ARMADA_80x0_DB_VBUS0_LIMIT_PIN,
+    TRUE,
+  },
+  {
+    ARMADA_80x0_DB_IO_EXPANDER0,
+    ARMADA_80x0_DB_VBUS1_PIN,
+    TRUE,
+  },
+  {
+    ARMADA_80x0_DB_IO_EXPANDER0,
+    ARMADA_80x0_DB_VBUS1_LIMIT_PIN,
+    TRUE,
+  },
+  {
+    ARMADA_80x0_DB_IO_EXPANDER1,
+    ARMADA_80x0_DB_VBUS2_PIN,
+    TRUE,
+  },
+  {
+    ARMADA_80x0_DB_IO_EXPANDER1,
+    ARMADA_80x0_DB_VBUS2_LIMIT_PIN,
+    TRUE,
+  },
+};
 
 STATIC
 EFI_STATUS
@@ -35,12 +74,11 @@ Armada80x0DbInitXhciVbus (
   IN  NON_DISCOVERABLE_DEVICE       *This
   )
 {
+  CONST GPIO_PIN_DESC     *VbusEnPinDesc;
   EFI_STATUS              Status = EFI_SUCCESS;
   MARVELL_GPIO_PROTOCOL   *GpioProtocol;
   EFI_HANDLE              *ProtHandle = NULL;
-  GPIO_PIN_DESC           DBVbus0En = {MV_GPIO_IOEXPANDER0, ARMADA_80x0_DB_VBUS0_IOEXPANDER, TRUE};
-  GPIO_PIN_DESC           DBVbus1En = {MV_GPIO_IOEXPANDER0, ARMADA_80x0_DB_VBUS1_IOEXPANDER, TRUE};
-  GPIO_PIN_DESC           DBVbus2En = {MV_GPIO_IOEXPANDER1, ARMADA_80x0_DB_VBUS2_IOEXPANDER, TRUE};
+  UINTN                   Index;
 
   Status = MarvellGpioGetHandle (GPIO_DRIVER_TYPE_IO_EXPANDER, &ProtHandle);
   if (EFI_ERROR (Status)) {
@@ -59,18 +97,14 @@ Armada80x0DbInitXhciVbus (
     return Status;
   }
 
-  GpioProtocol->DirectionOutput (GpioProtocol,
-                  DBVbus0En.ControllerId,
-                  DBVbus0En.PinNumber,
-                  DBVbus0En.ActiveHigh);
-  GpioProtocol->DirectionOutput (GpioProtocol,
-                  DBVbus1En.ControllerId,
-                  DBVbus1En.PinNumber,
-                  DBVbus1En.ActiveHigh);
-  GpioProtocol->DirectionOutput (GpioProtocol,
-                  DBVbus2En.ControllerId,
-                  DBVbus2En.PinNumber,
-                  DBVbus2En.ActiveHigh);
+  VbusEnPinDesc = mArmada80x0DbVbusEn;
+  for (Index = 0; Index < ARRAY_SIZE (mArmada80x0DbVbusEn); Index++) {
+    GpioProtocol->DirectionOutput (GpioProtocol,
+                    VbusEnPinDesc->ControllerId,
+                    VbusEnPinDesc->PinNumber,
+                    VbusEnPinDesc->ActiveHigh);
+    VbusEnPinDesc++;
+  }
 
   Status = gBS->CloseProtocol (ProtHandle,
                   &gMarvellGpioProtocolGuid,
