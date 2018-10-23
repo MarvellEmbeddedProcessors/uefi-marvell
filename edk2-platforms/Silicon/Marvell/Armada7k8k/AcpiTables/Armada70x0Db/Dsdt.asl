@@ -385,13 +385,6 @@ DefinitionBlock ("DSDT.aml", "DSDT", 2, "MVEBU ", "ARMADA7K", 3)
                   }
 
                   //
-                  // Function 3: Return Vendor-specific Token ID Strings.
-                  //
-                  case(3) {
-                    Return (Package(0) {})
-                  }
-
-                  //
                   // Function 4: Return PCI Bus Capabilities
                   //
                   case(4) {
