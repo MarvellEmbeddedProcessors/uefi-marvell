@@ -119,7 +119,6 @@ DefinitionBlock ("DSDT.aml", "DSDT", 2, "MVEBU ", "ARMADA7K", 3)
         Device (COM1)
         {
             Name (_HID, "HISI0031")                             // _HID: Hardware ID
-            Name (_CID, "8250dw")                               // _CID: Compatible ID
             Name (_ADR, FixedPcdGet64(PcdSerialRegisterBase))   // _ADR: Address
             Name (_CRS, ResourceTemplate ()                     // _CRS: Current Resource Settings
             {
