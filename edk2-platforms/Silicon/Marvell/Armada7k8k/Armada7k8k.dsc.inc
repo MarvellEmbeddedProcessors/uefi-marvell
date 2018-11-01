@@ -276,7 +276,7 @@
   gEfiMdeModulePkgTokenSpaceGuid.PcdFlashNvStorageFtwWorkingBase64|0xF93D0000
 
 [PcdsFixedAtBuild.common]
-  gEfiMdeModulePkgTokenSpaceGuid.PcdFirmwareVersionString|L"MARVELL UEFI 18.09.0"
+  gEfiMdeModulePkgTokenSpaceGuid.PcdFirmwareVersionString|L"MARVELL UEFI 18.11.0"
   gArmPlatformTokenSpaceGuid.PcdCoreCount|4
 
   gEfiMdePkgTokenSpaceGuid.PcdMaximumUnicodeStringLength|1000000
